@@ -175,7 +175,7 @@ LICENSE & CREDITS
 
 Creator: Edoardo Pensi
 Version: 0.0.01
-License: MIT (open source)
+License: GNU General Public Lisense v3.0
 
 Built with:
   - PyQt6 / PyQtWebEngine
