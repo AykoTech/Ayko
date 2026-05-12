@@ -1,4 +1,4 @@
-# JARVIS - Desktop AI Assistant by Tony Stark
+# J.A.R.V.I.S. - Desktop AI Assistant
 
 **Versione:** 0.0.01  
 **Creatore:** Edoardo Pensi  
