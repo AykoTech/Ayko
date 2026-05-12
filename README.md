@@ -375,7 +375,7 @@ Modifica `assets/sphere.html` - è Three.js puro:
 
 ## 🐛 Bug Report & Contributi
 
-Issues: https://github.com/edoardopensi/jarvis-ai/issues  
+Issues: https://github.com/NovaAI-Games/J.A.R.V.I.S./issues  
 Forks welcome per miglioramenti!
 
 ---
