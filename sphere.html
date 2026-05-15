@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS - AI Core</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 100%);
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00ff41;
+            font-size: 12px;
+            text-shadow: 0 0 10px #00ff41, 0 0 20px rgba(0, 255, 65, 0.5);
+            z-index: 10;
+            line-height: 1.6;
+        }
+        #status {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            color: #00ff41;
+            font-size: 14px;
+            text-shadow: 0 0 10px #00ff41;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border: 2px solid #00ff41;
+            border-radius: 5px;
+            min-width: 200px;
+        }
+        .scanline {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff41, transparent);
+            opacity: 0.3;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        #waveform {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 150px;
+            height: 40px;
+            border: 1px solid #00ff41;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="hud">
+        <div>JARVIS v0.0.01</div>
+        <div>━━━━━━━━━━━━━━</div>
+        <div id="fps">FPS: 60</div>
+        <div id="mode">MODE: STANDBY</div>
+        <div id="listening" style="color: #00aa20;">●</div>
+    </div>
+    <div class="scanline"></div>
+    <div id="status">● READY</div>
+    <canvas id="canvas"></canvas>
+    <canvas id="waveform"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let sphere, wireframe, particles, rings = [];
+        let rotationSpeed = 0.002;
+        let pulseIntensity = 0;
+        let isListening = false;
+        let frameCount = 0;
+        let lastTime = Date.now();
+
+        function init() {
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0e27);
+            scene.fog = new THREE.Fog(0x0a0e27, 10, 500);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(
+                65,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 3;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFShadowShadowMap;
+            document.body.appendChild(renderer.domElement);
+
+            // Lights
+            const keyLight = new THREE.PointLight(0x00ff41, 2.5, 100);
+            keyLight.position.set(5, 5, 5);
+            keyLight.castShadow = true;
+            keyLight.shadow.mapSize.width = 2048;
+            keyLight.shadow.mapSize.height = 2048;
+            scene.add(keyLight);
+
+            const rimLight = new THREE.PointLight(0x0055ff, 1, 100);
+            rimLight.position.set(-5, 0, -5);
+            scene.add(rimLight);
+
+            const ambientLight = new THREE.AmbientLight(0x001a00, 0.5);
+            scene.add(ambientLight);
+
+            // Main sphere - Icosahedron for detail
+            const sphereGeom = new THREE.IcosahedronGeometry(1.2, 5);
+            const sphereMat = new THREE.MeshPhongMaterial({
+                color: 0x00ff41,
+                emissive: 0x00aa20,
+                shininess: 80,
+                wireframe: false,
+                flatShading: false
+            });
+            sphere = new THREE.Mesh(sphereGeom, sphereMat);
+            sphere.castShadow = true;
+            sphere.receiveShadow = true;
+            scene.add(sphere);
+
+            // Wireframe outer shell
+            const wireGeom = new THREE.IcosahedronGeometry(1.25, 5);
+            const wireMat = new THREE.MeshBasicMaterial({
+                color: 0x00ff41,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.4,
+                linewidth: 1
+            });
+            wireframe = new THREE.Mesh(wireGeom, wireMat);
+            scene.add(wireframe);
+
+            // Inner glow sphere
+            const glowGeom = new THREE.IcosahedronGeometry(0.8, 4);
+            const glowMat = new THREE.MeshBasicMaterial({
+                color: 0x00ff41,
+                transparent: true,
+                opacity: 0.15
+            });
+            const glow = new THREE.Mesh(glowGeom, glowMat);
+            scene.add(glow);
+
+            // Particle system
+            createParticles();
+
+            // Orbital rings
+            createRings();
+
+            // Event listeners
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('mousemove', onMouseMove);
+
+            // Start animation
+            animate();
+        }
+
+        function createParticles() {
+            const particleCount = 300;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 8;
+                positions[i + 1] = (Math.random() - 0.5) * 8;
+                positions[i + 2] = (Math.random() - 0.5) * 8;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0x00ff41,
+                size: 0.08,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.6,
+                sizeAttenuation: true
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        function createRings() {
+            // Create 3 orbital rings at different angles
+            const ringGeometries = [
+                new THREE.TorusGeometry(1.8, 0.03, 16, 100),
+                new THREE.TorusGeometry(2.2, 0.02, 16, 100),
+                new THREE.TorusGeometry(2.6, 0.025, 16, 100)
+            ];
+
+            ringGeometries.forEach((geom, i) => {
+                const mat = new THREE.MeshBasicMaterial({
+                    color: new THREE.Color().setHSL(0.35, 1, 0.5),
+                    transparent: true,
+                    opacity: 0.7 - i * 0.1
+                });
+                const ring = new THREE.Mesh(geom, mat);
+
+                if (i === 0) ring.rotation.x = Math.PI * 0.3;
+                if (i === 1) ring.rotation.z = Math.PI * 0.4;
+                if (i === 2) ring.rotation.x = Math.PI * 0.5;
+
+                rings.push({ mesh: ring, speed: 0.001 + i * 0.0003, axis: 'xyz'[i] });
+                scene.add(ring);
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate main sphere
+            sphere.rotation.x += rotationSpeed * 0.7;
+            sphere.rotation.y += rotationSpeed;
+            sphere.rotation.z += rotationSpeed * 0.3;
+
+            // Rotate wireframe
+            wireframe.rotation.x -= rotationSpeed * 0.5;
+            wireframe.rotation.y -= rotationSpeed * 1.5;
+
+            // Particle motion
+            if (particles) {
+                particles.rotation.x += rotationSpeed * 0.4;
+                particles.rotation.y += rotationSpeed * 0.7;
+                particles.rotation.z += rotationSpeed * 0.3;
+            }
+
+            // Orbital rings
+            rings.forEach((ring, i) => {
+                ring.mesh.rotation.x += ring.speed * (isListening ? 3 : 1);
+                ring.mesh.rotation.y += ring.speed * (isListening ? 2 : 0.5);
+            });
+
+            // Pulse effect
+            const pulse = Math.sin(Date.now() * 0.003) * 0.05 + 1;
+            const targetScale = isListening ? pulse * 1.15 : pulse;
+            sphere.scale.lerp(
+                new THREE.Vector3(targetScale, targetScale, targetScale),
+                0.1
+            );
+
+            // Glow intensity
+            if (sphere.children && sphere.children[0]) {
+                sphere.children[0].material.opacity = 0.1 + Math.sin(Date.now() * 0.002) * 0.1;
+            }
+
+            // FPS counter
+            frameCount++;
+            const now = Date.now();
+            if (now >= lastTime + 1000) {
+                document.getElementById('fps').textContent = `FPS: ${frameCount}`;
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            const x = (event.clientX / window.innerWidth) * 2 - 1;
+            const y = -(event.clientY / window.innerHeight) * 2 + 1;
+            camera.position.x = x * 0.5;
+            camera.position.y = y * 0.5;
+        }
+
+        // Python API
+        window.jarvisAPI = {
+            listening: function() {
+                isListening = true;
+                rotationSpeed = 0.005;
+                document.getElementById('status').textContent = '● LISTENING...';
+                document.getElementById('listening').style.color = '#ff00ff';
+                document.getElementById('mode').textContent = 'MODE: ACTIVE';
+            },
+            ready: function() {
+                isListening = false;
+                rotationSpeed = 0.002;
+                document.getElementById('status').textContent = '● READY';
+                document.getElementById('listening').style.color = '#00aa20';
+                document.getElementById('mode').textContent = 'MODE: STANDBY';
+            },
+            processing: function() {
+                document.getElementById('status').textContent = '● PROCESSING...';
+                document.getElementById('listening').style.color = '#ffff00';
+            },
+            success: function() {
+                isListening = false;
+                document.getElementById('status').textContent = '● SUCCESS';
+                document.getElementById('listening').style.color = '#00ff41';
+                setTimeout(() => window.jarvisAPI.ready(), 1000);
+            },
+            error: function(msg) {
+                document.getElementById('status').textContent = '● ERROR: ' + msg;
+                document.getElementById('listening').style.color = '#ff0000';
+            },
+            setSphereColor: function(hexColor) {
+                sphere.material.color.setHex(parseInt(hexColor, 16));
+                sphere.material.emissive.setHex(parseInt(hexColor, 16) * 0.5);
+            }
+        };
+
+        // Initialize
+        init();
+    </script>
+</body>
+</html>

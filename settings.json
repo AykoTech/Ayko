@@ -1,0 +1,12 @@
+{
+  "wake_word": "JARVIS",
+  "llm_model": "tinyllama",
+  "ollama_host": "http://localhost:11434",
+  "mic_sensitivity": 0.5,
+  "tts_rate": 150,
+  "tts_volume": 0.7,
+  "theme": "dark",
+  "autostart": false,
+  "timeout_command": 10,
+  "language": "it"
+}
