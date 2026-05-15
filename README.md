@@ -1,4 +1,4 @@
-# JARVIS - Desktop AI Assistant by Tony Stark
+# JARVIS - Desktop AI Assistant
 
 **Versione:** 0.0.01  
 **Creatore:** Edoardo Pensi  
@@ -21,8 +21,8 @@
 ### Windows
 ```bash
 # Scarica il progetto
-git clone https://github.com/edoardopensi/jarvis-ai.git
-cd jarvis-ai
+git clone https://github.com/NovaAI-Games/J.A.R.V.I.S..git
+cd J.A.R.V.I.S.
 
 # Esegui installer
 .\install.bat
@@ -31,8 +31,8 @@ cd jarvis-ai
 ### macOS/Linux
 ```bash
 # Scarica il progetto
-git clone https://github.com/edoardopensi/jarvis-ai.git
-cd jarvis-ai
+git clone https://github.com/NovaAI-Games/J.A.R.V.I.S..git
+cd J.A.R.V.I.S.
 
 # Rendi eseguibile
 chmod +x install.sh
@@ -71,8 +71,8 @@ python3 --version
 ### Step 2: Scarica Progetto
 
 ```bash
-git clone https://github.com/edoardopensi/jarvis-ai.git
-cd jarvis-ai
+git clone https://github.com/NovaAI-Games/J.A.R.V.I.S..git
+cd J.A.R.V.I.S.
 ```
 
 ---
@@ -375,7 +375,7 @@ Modifica `assets/sphere.html` - è Three.js puro:
 
 ## 🐛 Bug Report & Contributi
 
-Issues: https://github.com/edoardopensi/jarvis-ai/issues  
+Issues: https://github.com/NovaAI-Games/J.A.R.V.I.S./issues  
 Forks welcome per miglioramenti!
 
 ---
