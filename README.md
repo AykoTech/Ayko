@@ -290,7 +290,7 @@ Accedi da menu in alto a destra. Configurabili:
 ## 📁 Struttura Progetto
 
 ```
-jarvis-ai/
+J.A.R.V.I.S./
 ├── src/
 │   ├── main.py                 # Entry point principale
 │   ├── core/
