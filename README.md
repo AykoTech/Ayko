@@ -1,4 +1,4 @@
-# 🤖 JARVIS v0.0.01 - Desktop AI Assistant
+# 🤖 JARVIS v0.0.01 - Desktop AI Coworker
 
 > **Assistente AI vocale completamente locale - Privacy first**
 
