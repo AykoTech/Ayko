@@ -1,0 +1,19 @@
+# Core Requirements
+PyQt6==6.6.1
+PyQt6-WebEngine==6.6.1
+pynput==1.7.6
+pyttsx3==2.90
+
+# AI & NLP
+vosk==0.3.32
+pyaudio==0.2.13
+
+# Utilities
+numpy==1.24.3
+python-dotenv==1.0.0
+
+# Development (optional)
+pytest==7.4.0
+black==23.7.0
+flake8==6.1.0
+mypy==1.5.0
