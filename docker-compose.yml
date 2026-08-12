@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  jarvis:
+    build: .
+    container_name: jarvis-ai
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./config:/app/config
+      - ~/.jarvis:/root/.jarvis
+    environment:
+      - JARVIS_OFFLINE_MODE=true
+      - JARVIS_LOG_LEVEL=INFO
+    restart: unless-stopped
