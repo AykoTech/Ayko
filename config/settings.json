@@ -1,0 +1,36 @@
+{
+  "voice": {
+    "engine": "pyttsx3",
+    "rate": 1.0,
+    "volume": 0.9,
+    "pitch": 1.0
+  },
+  "ai": {
+    "model": "tinyllama",
+    "max_tokens": 256,
+    "temperature": 0.7
+  },
+  "hotkeys": {
+    "activate": "alt+j",
+    "settings": "alt+j+s",
+    "help": "alt+j+h",
+    "clear_history": "alt+j+c"
+  },
+  "features": {
+    "learning_enabled": true,
+    "personality_enabled": true,
+    "emotion_synthesis": true,
+    "screen_awareness": true
+  },
+  "privacy": {
+    "mask_clipboard": true,
+    "offline_mode": true,
+    "store_commands": true,
+    "max_history": 50
+  },
+  "ui": {
+    "theme": "dark",
+    "animation_speed": 1.0,
+    "refresh_rate": 60
+  }
+}
