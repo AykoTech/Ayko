@@ -1,6 +1,6 @@
 # 🤖 JARVIS v0.0.01 - Desktop AI Coworker
 
-> **Assistente AI vocale completamente locale - Privacy first**
+> **Coworker AI vocale completamente locale - Privacy first**
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
