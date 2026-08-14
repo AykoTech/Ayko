@@ -9,6 +9,7 @@
   },
   "ai": {
     "model": "tinyllama",
+    "host": "http://localhost:11434",
     "max_tokens": 256,
     "temperature": 0.7,
     "offline_mode": true

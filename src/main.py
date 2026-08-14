@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-JARVIS v0.0.01 - Desktop AI Assistant
+JARVIS v0.0.01 - Desktop AI Coworker
 GNU General Public License v3.0
 """
 
@@ -34,15 +34,17 @@ def main():
 
     try:
         llm = LLMEngine(
-            model=config.get("llm_model", "tinyllama"),
-            host=config.get("ollama_host", "http://localhost:11434")
+            model=config.get_nested("ai", "model", default="tinyllama"),
+            host=config.get_nested("ai", "host", default="http://localhost:11434")
         )
     except Exception as e:
         logger.warning(f"LLM unavailable: {e}")
         llm = None
 
     try:
-        tts = TTSEngine()
+        voice_rate = int(150 * config.get_nested("voice", "rate", default=1.0))
+        voice_volume = config.get_nested("voice", "volume", default=0.9)
+        tts = TTSEngine(rate=voice_rate, volume=voice_volume)
     except Exception as e:
         logger.warning(f"TTS unavailable: {e}")
         tts = None
