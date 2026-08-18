@@ -1,4 +1,3 @@
-
 """Command Parser - SINGLE responsibility: intent → tool routing."""
 
 import logging
@@ -29,6 +28,11 @@ class CommandParser:
         "search": "web_search",
         "open_url": "open_url",
         "open_website": "open_url",
+        
+        # Memoria, suggerimenti, contesto schermo
+        "memory": "memory",
+        "suggest": "suggest",
+        "context_awareness": "context_awareness",
     }
     
     def parse(self, intent: str, args: Dict[str, Any]) -> Tuple[str, Dict]:
@@ -44,7 +48,6 @@ class CommandParser:
         
         intent = intent.lower().strip()
         
-        # Simple direct lookup
         tool = self.INTENT_TO_TOOL.get(intent)
         
         if not tool:
@@ -58,26 +61,3 @@ class CommandParser:
         """Register new intent mapping. For future extensions."""
         self.INTENT_TO_TOOL[intent] = tool_name
         logger.info(f"Registered: {intent} → {tool_name}")
-
-    def parse_with_memory(self, intent: str, args: dict, memory=None) -> tuple:
-        """Parse intent to tool, checking memory for suggestions.
-        
-        If exact intent not found, check if similar command in history.
-        """
-        
-        # Try exact match first
-        tool, mapped_args = self.parse(intent, args)
-        
-        if tool and memory:
-            # Suggest similar command if confidence low
-            similar = memory.suggest_similar(intent, threshold=0.65)
-            
-            if similar:
-                logger.debug(f"Similar command found: {similar['original']}")
-                return (tool, mapped_args, {
-                    "suggestion": similar["original"],
-                    "confidence": similar["similarity"],
-                    "hint": f"Did you mean: {similar['original']}?"
-                })
-        
-        return (tool, mapped_args, None)

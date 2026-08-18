@@ -1,4 +1,3 @@
-
 """LLM Engine - SINGLE responsibility: generate JSON intent + args."""
 
 import requests
@@ -40,13 +39,14 @@ class LLMEngine:
             (intent: str, args: dict)
         
         NOTE: Does NOT select tool. Does NOT execute anything.
+        Chiamata di rete bloccante: va sempre invocata da un thread
+        dedicato, mai dal thread audio/UI.
         """
         
         if not self.is_ready:
             logger.error("LLM not ready")
             return ("unknown", {})
         
-        # System prompt for structured output
         system_prompt = """You are a JSON generator.
 Extract the user's intent and parameters ONLY.
 
@@ -56,12 +56,15 @@ Return ONLY valid JSON:
   "args": {"key": "value"}
 }
 
-INTENTS: open_app, close_app, system_info, volume_control, web_search, open_url
+INTENTS: open_app, close_app, system_info, volume_control, web_search, open_url, memory, suggest, context_awareness
 
 Examples:
 "open youtube" → {"intent": "open_app", "args": {"app": "youtube"}}
 "what time is it" → {"intent": "system_info", "args": {"type": "time"}}
 "search python" → {"intent": "web_search", "args": {"query": "python"}}
+"what did i do earlier" → {"intent": "memory", "args": {"query": "recent"}}
+"what can I say" → {"intent": "suggest", "args": {"query": "help"}}
+"what's on my screen" → {"intent": "context_awareness", "args": {"question": "what's on my screen"}}
 
 NO explanations. JSON ONLY.
 """
@@ -73,7 +76,7 @@ NO explanations. JSON ONLY.
                     "model": self.model,
                     "prompt": f"{system_prompt}\n\nUser: {text}",
                     "stream": False,
-                    "temperature": 0.1,
+                    "options": {"temperature": 0.1},
                 },
                 timeout=self.timeout
             )

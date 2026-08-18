@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-JARVIS v0.0.01 - Desktop AI Assistant
+JARVIS v0.0.01 - Desktop AI Coworker
 GNU General Public License v3.0
 Copyright (C) 2026 Edoardo Pensi
 
@@ -16,7 +16,6 @@ For more info: https://www.gnu.org/licenses/gpl-3.0.html
 """
 
 import sounddevice as sd
-import numpy as np
 import threading
 import json
 from vosk import Model, KaldiRecognizer
@@ -41,6 +40,7 @@ class AudioInputManager(QObject):
         self.model_loaded = False
         self.recognizer = None
         self.model = None
+        self._thread = None
         
         try:
             model_path = Path("model")
@@ -61,9 +61,13 @@ class AudioInputManager(QObject):
             logger.error("Model not loaded")
             return
         
+        if self.is_listening:
+            logger.warning("Already listening, ignoring start()")
+            return
+        
         self.is_listening = True
-        thread = threading.Thread(target=self._listen_loop, daemon=True)
-        thread.start()
+        self._thread = threading.Thread(target=self._listen_loop, daemon=True)
+        self._thread.start()
         logger.info("Listening started")
     
     def stop(self):
@@ -82,13 +86,15 @@ class AudioInputManager(QObject):
                     
                     if self.recognizer.AcceptWaveform(data.tobytes()):
                         result = json.loads(self.recognizer.Result())
+                        text = result.get('text', '').strip()
                         
-                        if 'result' in result and result['result']:
-                            text = ' '.join([r['conf'] for r in result['result']])
+                        if text:
                             self._process_text(text)
         
         except Exception as e:
             logger.error(f"Audio loop error: {e}")
+        finally:
+            self.is_listening = False
     
     def _process_text(self, text):
         """Check for wake-word and emit command."""
@@ -97,13 +103,11 @@ class AudioInputManager(QObject):
         if self.wake_word in text_lower:
             self.listening_started.emit()
             
-            # Extract command after wake-word
-            parts = text_lower.split(self.wake_word)
+            parts = text_lower.split(self.wake_word, 1)
             if len(parts) > 1:
                 command = parts[1].strip()
                 if command:
                     logger.info(f"Command detected: {command}")
-                    # Emit raw text - Core will handle it
                     self.command_detected.emit(command)
             
             self.listening_stopped.emit()
