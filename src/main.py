@@ -6,7 +6,6 @@ GNU General Public License v3.0
 
 import sys
 import logging
-from pathlib import Path
 
 from utils.logger import JARVISLogger
 _jarvis_logger = JARVISLogger()
@@ -26,29 +25,51 @@ except ImportError as e:
     sys.exit(1)
 
 
-def main():
-    app = QApplication(sys.argv)
-    app.setApplicationName("JARVIS")
-
-    config = Config()
+def build_core(config: Config) -> JARVISCore:
+    """Composition root: costruisce le dipendenze concrete e le inietta
+    in JARVISCore. Core stesso non sa COME si costruisce un LLM/TTS/Audio,
+    riceve solo istanze già pronte."""
 
     try:
         llm = LLMEngine(
             model=config.get_nested("ai", "model", default="tinyllama"),
-            host=config.get_nested("ai", "host", default="http://localhost:11434")
+            host=config.get_nested("ai", "host", default="http://localhost:11434"),
         )
     except Exception as e:
         logger.warning(f"LLM unavailable: {e}")
         llm = None
 
     try:
-        voice_rate = int(150 * config.get_nested("voice", "rate", default=1.0))
-        voice_volume = config.get_nested("voice", "volume", default=0.9)
-        tts = TTSEngine(rate=voice_rate, volume=voice_volume)
+        rate = int(150 * config.get_nested("voice", "rate", default=1.0))
+        volume = config.get_nested("voice", "volume", default=0.9)
+        tts = TTSEngine(rate=rate, volume=volume)
     except Exception as e:
         logger.warning(f"TTS unavailable: {e}")
         tts = None
 
+    audio = None
+    try:
+        candidate = AudioInputManager(wake_word="JARVIS")
+        if candidate.model_loaded:
+            audio = candidate
+        else:
+            logger.warning("Audio unavailable: modello Vosk non trovato in ./model")
+    except Exception as e:
+        logger.warning(f"Audio unavailable: {e}")
+
+    return JARVISCore(llm=llm, tts=tts, audio=audio)
+
+
+def main():
+    app = QApplication(sys.argv)
+    app.setApplicationName("JARVIS")
+
+    config = Config()
+    core = build_core(config)
+
+    # NOTA: JARVISApp non esiste ancora (in attesa della tua UI HTML).
+    # Quando arriva, andrà costruita passandole `core` per collegare
+    # segnali/comandi (core.command_completed, core.speaking, ecc.)
     window = JARVISApp()
     window.show()
     sys.exit(app.exec())
