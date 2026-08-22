@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Integration tests for full JARVIS flow."""
+"""Integration tests for full AYKO flow."""
 
 import pytest
 import sys

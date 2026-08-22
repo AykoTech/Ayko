@@ -1,12 +1,12 @@
 ════════════════════════════════════════════════════════════════════════════════
-                    JARVIS v0.0.01 - FINAL PROJECT TREE
+                    AYKO v0.0.01 - FINAL PROJECT TREE
 ════════════════════════════════════════════════════════════════════════════════
 
-jarvis-ai/
+ayko-ai/
 │
 ├── 📄 README.md                          # 🟢 Main entry point
 ├── 📄 setup.py                           # 🟢 Setup script
-├── 📄 run.py                             # 🟢 Launch JARVIS
+├── 📄 run.py                             # 🟢 Launch AYKO
 ├── 📄 requirements.txt                   # 🟢 Dependencies
 ├── 📄 LICENSE                            # 🟢 GPL v3.0
 ├── 📄 .gitignore                         # 🟢 Git config
@@ -72,7 +72,7 @@ jarvis-ai/
 │   │   ├── main_window.py               # Main window
 │   │   ├── modern_ui.py                 # Modern design
 │   │   ├── settings_panel.py            # Settings UI
-│   │   └── jarvis_sphere.py             # Sphere implementation
+│   │   └── ayko_sphere.py             # Sphere implementation
 │   │
 │   ├── tools/                           # System Tools (10+ modules)
 │   │   ├── __init__.py

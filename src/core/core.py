@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""JARVIS Core - Orchestrator.
+"""AYKO Core - Orchestrator.
 
 Punto centrale della pipeline: riceve testo (da microfono o da input
 diretto), lo interpreta via LLM, lo instrada al tool corretto, e
@@ -10,7 +10,7 @@ collegarsi senza che Core sappia nulla della UI stessa.
 Le dipendenze pesanti (LLM, TTS, Audio) sono iniettate dall'esterno,
 mai costruite qui dentro: chi assembla l'applicazione (es. main.py)
 decide come costruirle. Questo mantiene Core testabile con
-JARVISCore() a zero dipendenze, senza toccare microfono/Ollama/TTS.
+AYKOCore() a zero dipendenze, senza toccare microfono/Ollama/TTS.
 """
 
 import logging
@@ -20,10 +20,10 @@ from datetime import datetime, timezone
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
-logger = logging.getLogger("JARVISCore")
+logger = logging.getLogger("AYKOCore")
 
 
-class JARVISCore(QObject):
+class AYKOCore(QObject):
     """Orchestratore: Audio -> LLM -> Parser -> Tool -> TTS."""
 
     command_received = pyqtSignal(str)     # testo grezzo (microfono o chiamata diretta)
@@ -52,7 +52,7 @@ class JARVISCore(QObject):
         if self.audio is not None:
             self.audio.command_detected.connect(self._on_audio_command)
 
-        logger.info("JARVISCore initialized")
+        logger.info("AYKOCore initialized")
 
     def _init_components(self):
         try:

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Setup script for JARVIS."""
+"""Setup script for AYKO."""
 
 from setuptools import setup, find_packages
 
 setup(
-    name="jarvis-ai",
+    name="ayko-ai",
     version="0.0.01",
-    description="Privacy-first AI desktop assistant",
+    description="Privacy-first AI desktop coworker",
     author="Edoardo Pensi",
     license="GNU General Public License v3.0",
     packages=find_packages(),

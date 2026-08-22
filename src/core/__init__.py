@@ -1,1 +1,1 @@
-# JARVIS core package
+# AYKO core package

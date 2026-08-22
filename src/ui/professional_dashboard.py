@@ -287,7 +287,7 @@ class ProfessionalDashboard(QWidget):
 
 
 def launch_professional_ui():
-    """Launch JARVIS professional control room interface."""
+    """Launch AYKO professional control room interface."""
     import sys
     try:
         from PyQt6.QtWidgets import QApplication
@@ -296,15 +296,15 @@ def launch_professional_ui():
         sys.exit(1)
 
     app = QApplication(sys.argv)
-    app.setApplicationName("JARVIS")
+    app.setApplicationName("AYKO")
     app.setApplicationVersion("0.0.01")
 
     window = ProfessionalDashboard()
-    window.setWindowTitle("JARVIS v0.0.01 - Professional Control Room")
+    window.setWindowTitle("AYKO v0.0.01 - Professional Control Room")
     window.setGeometry(50, 50, 1600, 900)
     window.show()
 
-    print("🏛️ JARVIS Professional Control Room started successfully")
+    print("🏛️ AYKO Professional Control Room started successfully")
     print("📊 Monitor metrics and control systems from main dashboard")
     
     import sys

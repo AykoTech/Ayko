@@ -1,4 +1,4 @@
-# JARVIS v0.0.01 - Architecture Migration (OLD → NEW)
+# AYKO v0.0.01 - Architecture Migration (OLD → NEW)
 
 ## What Changed?
 
@@ -170,7 +170,7 @@ class VolumeControlTool(Tool):
 
 **OLD:**
 ```python
-class JARVISApplication:
+class AYKOApplication:
     def on_command_received(self, text):
         intent, params = parser.parse(text, llm)
         result = controller.execute(intent, params)
@@ -180,7 +180,7 @@ class JARVISApplication:
 
 **NEW:**
 ```python
-class JARVISApplication:
+class AYKOApplication:
     def process_command(self, text):
         result = core.execute_command(text)
         # result includes: success, intent, tool, result, timeline
@@ -247,7 +247,7 @@ print(result["timeline"])
 
 ## Migration Path
 
-If you have custom code extending old JARVIS:
+If you have custom code extending old AYKO:
 
 ### 1. Extend Tools, NOT SystemController
 ```python
@@ -312,7 +312,7 @@ Expected output:
 
 **Migration Complete!** ✓
 
-Your JARVIS is now architected for production:
+Your AYKO is now architected for production:
 - Testable
 - Extensible
 - Maintainable

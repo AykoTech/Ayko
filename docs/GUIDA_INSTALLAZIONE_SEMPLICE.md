@@ -1,4 +1,4 @@
-# 🤖 JARVIS - GUIDA INSTALLAZIONE PER PRINCIPIANTI
+# 🤖 AYKO - GUIDA INSTALLAZIONE PER PRINCIPIANTI
 
 ## PRIMA DI INIZIARE: Verifica 3 Cose
 
@@ -14,14 +14,14 @@
 
 ### 🪟 **WINDOWS**
 
-1. **Scarica i file JARVIS**
+1. **Scarica i file AYKO**
    - Clicca bottone "Download" (avrai ZIP con tutti file)
-   - Estrai in cartella (es: `C:\Users\TuoNome\Desktop\JARVIS`)
+   - Estrai in cartella (es: `C:\Users\TuoNome\Desktop\AYKO`)
 
 2. **Apri PowerShell in quella cartella**
    - Tasto Windows + R
    - Digita: `powershell`
-   - Incolla: `cd C:\Users\TuoNome\Desktop\JARVIS`
+   - Incolla: `cd C:\Users\TuoNome\Desktop\AYKO`
    
 3. **Esegui installer**
    - Digita: `.\install.bat`
@@ -33,7 +33,7 @@
    - Apri file .exe e installa
    - Riapri PowerShell e ripeti step 3
 
-5. **Avvia JARVIS**
+5. **Avvia AYKO**
    - Digita: `python run.py`
    - Aspetta caricamento
    - Clicca "Start Listening"
@@ -43,13 +43,13 @@
 
 ### 🍎 **macOS / Linux**
 
-1. **Scarica i file JARVIS**
+1. **Scarica i file AYKO**
    - Clicca bottone "Download" (avrai ZIP con tutti file)
    - Estrai in cartella (es: Desktop)
 
 2. **Apri Terminale**
    - Applicazioni → Utilità → Terminale
-   - Digita: `cd Desktop/JARVIS`
+   - Digita: `cd Desktop/AYKO`
 
 3. **Dai permessi allo script**
    - Digita: `chmod +x install.sh`
@@ -63,7 +63,7 @@
    - Installa normalmente
    - Riapri Terminale e ripeti step 4
 
-6. **Avvia JARVIS**
+6. **Avvia AYKO**
    - Digita: `source venv/bin/activate`
    - Digita: `python run.py`
    - Clicca "Start Listening"
@@ -112,7 +112,7 @@
    
    Windows:
    - Ignora (non è critico)
-   - JARVIS funziona comunque
+   - AYKO funziona comunque
    
    macOS:
    - Apri Terminale
@@ -126,26 +126,26 @@
 
 ---
 
-## 🎮 AVVIA JARVIS (Ogni Volta)
+## 🎮 AVVIA AYKO (Ogni Volta)
 
 ### 🪟 **Windows**
 
 ```
-1. Apri PowerShell in cartella JARVIS
+1. Apri PowerShell in cartella AYKO
 2. Digita: .\venv\Scripts\activate.bat
 3. Digita: python run.py
 4. Clicca bottone "Start Listening"
-5. Parla: "JARVIS, apri youtube"
+5. Parla: "AYKO, apri youtube"
 ```
 
 ### 🍎 **macOS/Linux**
 
 ```
-1. Apri Terminale in cartella JARVIS
+1. Apri Terminale in cartella AYKO
 2. Digita: source venv/bin/activate
 3. Digita: python run.py
 4. Clicca bottone "Start Listening"
-5. Parla: "JARVIS, apri youtube"
+5. Parla: "AYKO, apri youtube"
 ```
 
 ---
@@ -155,11 +155,11 @@
 Dopo "Start Listening", prova questi:
 
 ```
-"JARVIS, apri youtube"
-"JARVIS, che ora è"
-"JARVIS, ricerca python tutorial"
-"JARVIS, volume 80"
-"JARVIS, chiudi chrome"
+"AYKO, apri youtube"
+"AYKO, che ora è"
+"AYKO, ricerca python tutorial"
+"AYKO, volume 80"
+"AYKO, chiudi chrome"
 ```
 
 Vedi **COMMANDS.md** per altri 80+ comandi.
@@ -169,7 +169,7 @@ Vedi **COMMANDS.md** per altri 80+ comandi.
 ## ⚡ VELOCE: Metodo Manuale (Se Auto-Installer Fallisce)
 
 ```bash
-# 1. Apri Terminale/PowerShell in cartella JARVIS
+# 1. Apri Terminale/PowerShell in cartella AYKO
 
 # 2. Crea ambiente
 python -m venv venv
@@ -197,10 +197,10 @@ python run.py
 | Se... | Fai questo |
 |-------|-----------|
 | Microfono non funziona | Impostazioni → Privacy → Microfono → Consenti |
-| JARVIS non risponde | Prova comando: `python check_environment.py` |
+| AYKO non risponde | Prova comando: `python check_environment.py` |
 | Sfera 3D non si vede | Installa driver GPU, oppure funziona comunque |
 | Vuoi spegnere | Premi Ctrl+C nel Terminale |
-| Vuoi riavviare | Stessi comandi di "Avvia JARVIS" |
+| Vuoi riavviare | Stessi comandi di "Avvia AYKO" |
 
 ---
 
@@ -213,11 +213,11 @@ Se tutto installato correttamente, dovresti vedere:
 ✓ Moduli Python installati
 ✓ Ollama disponibile
 ✓ Modello TinyLlama scaricato
-✓ Finestra JARVIS apre
+✓ Finestra AYKO apre
 ✓ Sfera 3D verde pulsa
 ```
 
-Se vedi questo → **Perfetto! Pronto a usare JARVIS** 🚀
+Se vedi questo → **Perfetto! Pronto a usare AYKO** 🚀
 
 ---
 

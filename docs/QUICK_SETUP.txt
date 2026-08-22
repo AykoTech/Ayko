@@ -1,4 +1,4 @@
-# ⚡ JARVIS - QUICK SETUP (Esperti)
+# ⚡ AYKO - QUICK SETUP (Esperti)
 
 ```bash
 # 1. Setup

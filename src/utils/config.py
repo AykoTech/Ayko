@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Configuration Management.
 
-Unico punto di lettura/scrittura per le impostazioni JARVIS.
+Unico punto di lettura/scrittura per le impostazioni AYKO.
 Il file vive SEMPRE dentro config/ (mai in home directory), come da
 regola di progetto.
 """

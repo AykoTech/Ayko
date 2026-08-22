@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cinematic UI - Marvel-style interface for JARVIS."""
+"""Cinematic UI - Marvel-style interface for AYKO."""
 
 import logging
 from typing import Dict, Optional
@@ -117,7 +117,7 @@ class CinematicUI(QWidget):
         layout.setContentsMargins(20, 20, 20, 20)
         
         # Cinematic Title
-        title = QLabel("JARVIS")
+        title = QLabel("AYKO")
         title.setFont(QFont("Arial", 24, QFont.Weight.Bold))
         title.setStyleSheet(f"""
             color: {MARVEL_THEME["arc_blue"]};
@@ -342,7 +342,7 @@ class CinematicUI(QWidget):
 
 
 def launch_cinematic_ui():
-    """Launch JARVIS cinematic interface."""
+    """Launch AYKO cinematic interface."""
     import sys
     try:
         from PyQt6.QtWidgets import QApplication
@@ -351,11 +351,11 @@ def launch_cinematic_ui():
         sys.exit(1)
 
     app = QApplication(sys.argv)
-    app.setApplicationName("JARVIS")
+    app.setApplicationName("AYKO")
     app.setApplicationVersion("0.0.01")
 
     window = CinematicUI()
-    window.setWindowTitle("JARVIS v0.0.01 - Cinematic Marvel Edition")
+    window.setWindowTitle("AYKO v0.0.01 - Cinematic Marvel Edition")
     window.setGeometry(100, 100, 1400, 850)
     window.show()
 

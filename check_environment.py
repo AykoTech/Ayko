@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check JARVIS environment and dependencies."""
+"""Check AYKO environment and dependencies."""
 
 import sys
 import subprocess
@@ -69,7 +69,7 @@ def check_vosk_model():
 def main():
     print("")
     print("╔════════════════════════════════════════════════════════════╗")
-    print("║         JARVIS v0.0.01 - Environment Check                ║")
+    print("║         AYKO v0.0.01 - Environment Check                ║")
     print("╚════════════════════════════════════════════════════════════╝")
     print("")
     
@@ -147,10 +147,10 @@ def main():
     print()
     
     if all_pass:
-        print("✓✓✓ ENVIRONMENT READY FOR JARVIS ✓✓✓")
+        print("✓✓✓ ENVIRONMENT READY FOR AYKO ✓✓✓")
         return 0
     elif critical_pass:
-        print("⚠ Download models to use JARVIS:")
+        print("⚠ Download models to use AYKO:")
         print("  1. ollama pull tinyllama")
         print("  2. Download Vosk model to 'model/' directory")
         return 0

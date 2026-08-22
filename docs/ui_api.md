@@ -4,7 +4,7 @@
 
 ### `launch_modern_ui()`
 
-Launch JARVIS modern interface.
+Launch AYKO modern interface.
 
 **Example:**
 ```python
@@ -30,12 +30,12 @@ Set active monitor for hotkey capture.
 
 ## Sphere Animator
 
-### `set_state_animation(jarvis_state: str) -> Dict`
+### `set_state_animation(ayko_state: str) -> Dict`
 
-Set animation based on JARVIS state.
+Set animation based on AYKO state.
 
 **Parameters:**
-- `jarvis_state` (str): State (idle, listening, processing, speaking, error)
+- `ayko_state` (str): State (idle, listening, processing, speaking, error)
 
 **Returns:**
 - Dict: Animation configuration

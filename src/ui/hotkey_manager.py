@@ -26,7 +26,7 @@ class HotkeyManager(QObject):
         self.hotkeys = {
             "activate": {
                 "keys": {keyboard.Key.alt, keyboard.KeyCode(char='j')},
-                "description": "Activate JARVIS"
+                "description": "Activate AYKO"
             },
             "settings": {
                 "keys": {keyboard.Key.alt, keyboard.KeyCode(char='j'), keyboard.KeyCode(char='s')},

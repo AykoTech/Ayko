@@ -186,7 +186,7 @@ class HUDController(QWidget):
     def _setup_data_streams(self):
         """Setup data streaming content."""
         stream_content = [
-            "JARVIS_PROTOCOL_INIT",
+            "AYKO_PROTOCOL_INIT",
             "NEURAL_LINK_ESTABLISHED", 
             "VOICE_RECOGNITION_ACTIVE",
             "QUANTUM_PROCESSING",

@@ -1,4 +1,4 @@
-JARVIS v0.0.01 - COMPREHENSIVE BUG SWEEP LOG
+AYKO v0.0.01 - COMPREHENSIVE BUG SWEEP LOG
 =============================================
 
 === BUG FOUND ===

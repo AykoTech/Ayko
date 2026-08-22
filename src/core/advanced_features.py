@@ -15,10 +15,10 @@ class FileOrganizer:
     def __init__(self):
         logger.info("✓ FileOrganizer initialized")
 
-class CodeAssistant:
+class CodeCoworker:
     """Code analysis and assistance."""
     def __init__(self):
-        logger.info("✓ CodeAssistant initialized")
+        logger.info("✓ CodeCoworker initialized")
 
 class PresentationMode:
     """Voice-controlled presentation mode."""

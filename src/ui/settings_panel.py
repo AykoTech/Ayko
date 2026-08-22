@@ -128,7 +128,7 @@ class SettingsPanel(QWidget):
         
         self.wake_word_edit = QTextEdit()
         self.wake_word_edit.setMaximumHeight(60)
-        self.wake_word_edit.setPlainText("JARVIS")
+        self.wake_word_edit.setPlainText("AYKO")
         self.wake_word_edit.setStyleSheet(self._get_text_style())
         recognition_layout.addRow("Wake Word:", self.wake_word_edit)
         

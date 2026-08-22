@@ -1,6 +1,6 @@
 
 #!/usr/bin/env python3
-"""JARVIS Architecture Validation.
+"""AYKO Architecture Validation.
 
 Verifica che TUTTI i vincoli siano rispettati.
 """
@@ -23,7 +23,7 @@ def validate_architecture():
     
     logger.info("")
     logger.info("="*70)
-    logger.info("JARVIS v0.0.01 - ARCHITECTURE VALIDATION")
+    logger.info("AYKO v0.0.01 - ARCHITECTURE VALIDATION")
     logger.info("="*70)
     logger.info("")
     
@@ -58,7 +58,7 @@ def validate_architecture():
             ("src/core/command_parser.py", ["INTENT_TO_TOOL", "parse"]),
         ],
         "Core ONLY orchestrates": [
-            ("src/core/core.py", ["execute_command", "JARVISCore"]),
+            ("src/core/core.py", ["execute_command", "AYKOCore"]),
         ],
         "Tools are atomic": [
             ("src/core/tools.py", ["class.*Tool(Tool):", "execute"]),

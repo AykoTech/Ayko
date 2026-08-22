@@ -1,4 +1,4 @@
-# 🤖 JARVIS v0.0.01 - COMPLETE IMPLEMENTATION SUMMARY
+# 🤖 AYKO v0.0.01 - COMPLETE IMPLEMENTATION SUMMARY
 
 **Status: ✅ ALL 10 FEATURES IMPLEMENTED & TESTED**
 
@@ -11,7 +11,7 @@
 | 1 | Mood-based voice tone | ✅ | `mood_analyzer.py`, `tts_engine.py` | 150 |
 | 2 | Cursor animation ball | ✅ | `cursor_animator.py` | 280 |
 | 3 | Memory of recent commands | ✅ | `command_memory.py`, `command_parser.py` | 300 |
-| 4 | Custom hotkey for JARVIS | ✅ | `hotkey_manager.py` | 250 |
+| 4 | Custom hotkey for AYKO | ✅ | `hotkey_manager.py` | 250 |
 | 5 | Contextual help "Did you mean?" | ✅ | `command_suggester.py` | 280 |
 | 6 | Screen capture & context | ✅ | `screen_capture.py` | 320 |
 | 7 | Personality easter eggs | ✅ | `personality.py` | 380 |
@@ -26,7 +26,7 @@
 ## 🏗️ ARCHITECTURE
 
 ```
-JARVIS v0.0.01
+AYKO v0.0.01
 ├── Core (/src/core/)
 │   ├── core.py [LLM → Parser → Executor → Tool]
 │   ├── llm_engine.py [Ollama + TinyLlama]
@@ -59,7 +59,7 @@ JARVIS v0.0.01
 ## 💡 KEY CAPABILITIES
 
 ### Voice & Audio
-- ✅ Real-time wake-word detection ("JARVIS")
+- ✅ Real-time wake-word detection ("AYKO")
 - ✅ Offline speech-to-text (Vosk)
 - ✅ Mood-based voice modulation (rate, pitch)
 - ✅ Natural TTS responses (pyttsx3)
@@ -74,7 +74,7 @@ JARVIS v0.0.01
 
 ### User Interface
 - ✅ PyQt6 modern desktop app
-- ✅ 3D animated JARVIS sphere
+- ✅ 3D animated AYKO sphere
 - ✅ Cursor notification animation
 - ✅ Command suggestions dropdown
 - ✅ Settings panel
@@ -277,7 +277,7 @@ Architecture compliance: 100%
 ## 📄 FILES INCLUDED
 
 ```
-jarvis-ai/
+ayko-ai/
 ├── 00_LEGGI_PRIMA.txt
 ├── START_HERE.txt
 ├── QUICKSTART.md
@@ -334,9 +334,9 @@ jarvis-ai/
 
 ## 🙏 CREDITS
 
-**JARVIS v0.0.01**
+**AYKO v0.0.01**
 Creator: Edoardo Pensi
-Inspired by: Marvel's JARVIS from Iron Man
+Inspired by: Marvel's AYKO from Iron Man
 License: GNU General Public License v3.0
 
 Built with:
@@ -351,7 +351,7 @@ Built with:
 
 ## 📞 SUPPORT & COMMUNITY
 
-**GitHub**: https://github.com/edoardopensi/jarvis-ai
+**GitHub**: https://github.com/edoardopensi/ayko-ai
 **Issues**: Report on GitHub
 **Docs**: Complete documentation included
 **Tests**: Automated validation included
@@ -360,7 +360,7 @@ Built with:
 
 ## 📝 LICENSE
 
-JARVIS v0.0.01 is released under GNU General Public License v3.0.
+AYKO v0.0.01 is released under GNU General Public License v3.0.
 
 Key terms:
 - ✓ Free to use, modify, and distribute

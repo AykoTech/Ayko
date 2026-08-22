@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-JARVIS v0.0.01 - Desktop AI Coworker
+AYKO v0.0.01 - Desktop AI Coworker
 GNU General Public License v3.0
 Copyright (C) 2026 Edoardo Pensi
 
@@ -32,7 +32,7 @@ class AudioInputManager(QObject):
     listening_started = pyqtSignal()
     listening_stopped = pyqtSignal()
     
-    def __init__(self, wake_word="JARVIS", sensitivity=0.5):
+    def __init__(self, wake_word="AYKO", sensitivity=0.5):
         super().__init__()
         self.wake_word = wake_word.lower()
         self.sensitivity = max(0.1, min(1.0, sensitivity))

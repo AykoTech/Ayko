@@ -1,15 +1,15 @@
 version: '3.8'
 
 services:
-  jarvis:
+  ayko:
     build: .
-    container_name: jarvis-ai
+    container_name: ayko-ai
     stdin_open: true
     tty: true
     volumes:
       - ./config:/app/config
-      - ~/.jarvis:/root/.jarvis
+      - ~/.ayko:/root/.ayko
     environment:
-      - JARVIS_OFFLINE_MODE=true
-      - JARVIS_LOG_LEVEL=INFO
+      - AYKO_OFFLINE_MODE=true
+      - AYKO_LOG_LEVEL=INFO
     restart: unless-stopped

@@ -127,7 +127,7 @@ class LeftPanel(QWidget):
         wake_word_label.setStyleSheet(f"color: {PROFESSIONAL_THEME['text_secondary']};")
         layout.addWidget(wake_word_label)
         
-        self.wake_word_display = QLabel("JARVIS")
+        self.wake_word_display = QLabel("AYKO")
         self.wake_word_display.setFont(QFont("Courier New", 12, QFont.Weight.Bold))
         self.wake_word_display.setStyleSheet(f"color: {PROFESSIONAL_THEME['accent_blue']};")
         self.wake_word_display.setAlignment(Qt.AlignmentFlag.AlignCenter)

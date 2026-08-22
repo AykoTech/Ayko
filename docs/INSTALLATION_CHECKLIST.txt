@@ -1,12 +1,12 @@
 ╔════════════════════════════════════════════════════════════════════╗
-║                     JARVIS INSTALLATION CHECKLIST                  ║
+║                     AYKO INSTALLATION CHECKLIST                  ║
 ║                   Segui ESATTAMENTE questi step                   ║
 ╚════════════════════════════════════════════════════════════════════╝
 
 PRIMA DI INIZIARE - VERIFICA PREREQUISITI
 ═══════════════════════════════════════════════════════════════════════
 
-☐ Ho scaricato TUTTI i 45 file di JARVIS
+☐ Ho scaricato TUTTI i 45 file di AYKO
 ☐ I file sono in UNA SOLA CARTELLA (non sparsi)
 ☐ Ho 15+ GB di spazio disco libero (Disco → Proprietà → Spazio)
 ☐ Ho 8+ GB di RAM (Impostazioni → Archiviazione → RAM)
@@ -28,12 +28,12 @@ WINDOWS - INSTALLATION STEPS
   → Risultato: Python 3.10 o superiore ✅
   → Se errore: Scarica Python da python.org, SEGNA "Add to PATH"
 
-☐ STEP 2: Vai nella cartella JARVIS
+☐ STEP 2: Vai nella cartella AYKO
   → Apri Esplora File (icona cartella)
-  → Naviga alla cartella JARVIS
+  → Naviga alla cartella AYKO
   → Premi Shift + Click destro nello spazio vuoto
   → Clicca "Apri finestra PowerShell qui"
-  → Vedrai: C:\Users\TuoNome\...\jarvis-ai>
+  → Vedrai: C:\Users\TuoNome\...\ayko-ai>
 
 ☐ STEP 3: Esegui installazione (aspetta 15-30 minuti)
   → Nella finestra PowerShell digita:
@@ -58,20 +58,20 @@ WINDOWS - INSTALLATION STEPS
 ☐ STEP 4: Quando vedi "✅ INSTALLAZIONE COMPLETATA"
   → Premi un tasto per chiudere
 
-☐ STEP 5: Avvia JARVIS (primo run)
+☐ STEP 5: Avvia AYKO (primo run)
   → Nella stessa cartella premi Shift + Click destro
   → Apri PowerShell
   → Digita: .\venv\Scripts\activate.bat
   → Premi INVIO
-  → Vedrai: (venv) C:\Users\...\jarvis-ai>
+  → Vedrai: (venv) C:\Users\...\ayko-ai>
   → Digita: python run.py
   → Premi INVIO
-  → Dopo 5-10 secondi si apre la finestra JARVIS
+  → Dopo 5-10 secondi si apre la finestra AYKO
 
 ☐ STEP 6: Test microphone
-  → Nella finestra JARVIS clicca "🎤 Start Listening" (blu)
+  → Nella finestra AYKO clicca "🎤 Start Listening" (blu)
   → La sfera diventa BLU (sta ascoltando)
-  → Parla chiaro: "JARVIS, apri youtube"
+  → Parla chiaro: "AYKO, apri youtube"
   → Attendi 1-2 secondi
   → Sfera torna VERDE
   → YouTube si apre nel browser
@@ -91,9 +91,9 @@ macOS - INSTALLATION STEPS
   → Risultato: Python 3.10 o superiore ✅
   → Se errore: Digita: brew install python3
 
-☐ STEP 2: Vai nella cartella JARVIS
+☐ STEP 2: Vai nella cartella AYKO
   → Nel Terminale digita:
-     cd Desktop/jarvis-ai
+     cd Desktop/ayko-ai
   → Premi INVIO
   → (Adatta il percorso a dove hai messo la cartella)
 
@@ -111,17 +111,17 @@ macOS - INSTALLATION STEPS
 ☐ STEP 5: Quando vedi "✅ INSTALLAZIONE COMPLETATA"
   → Leggi il resto dei messaggi
 
-☐ STEP 6: Avvia JARVIS
+☐ STEP 6: Avvia AYKO
   → Nel Terminale digita: source venv/bin/activate
   → Premi INVIO
   → Vedrai: (venv) ...
   → Digita: python run.py
   → Premi INVIO
-  → Si apre finestra JARVIS
+  → Si apre finestra AYKO
 
 ☐ STEP 7: Test
   → Clicca "🎤 Start Listening"
-  → Parla: "JARVIS, apri youtube"
+  → Parla: "AYKO, apri youtube"
   → YouTube si apre
   ✅ FUNZIONA!
 
@@ -133,7 +133,7 @@ LINUX (Ubuntu/Debian) - INSTALLATION STEPS
   → Premi Ctrl + Alt + T
 
 ☐ STEP 2: Vai nella cartella
-  → Digita: cd Downloads/jarvis-ai
+  → Digita: cd Downloads/ayko-ai
   → (O dove hai messo la cartella)
   → Premi INVIO
 
@@ -146,7 +146,7 @@ LINUX (Ubuntu/Debian) - INSTALLATION STEPS
   → Premi INVIO
   → Se chiede password: digita (caratteri non si vedono)
 
-☐ STEP 5: Avvia JARVIS
+☐ STEP 5: Avvia AYKO
   → Digita: source venv/bin/activate
   → Premi INVIO
   → Digita: python run.py
@@ -154,7 +154,7 @@ LINUX (Ubuntu/Debian) - INSTALLATION STEPS
 
 ☐ STEP 6: Test
   → Clicca "🎤 Start Listening"
-  → Parla: "JARVIS, apri youtube"
+  → Parla: "AYKO, apri youtube"
   → YouTube si apre
   ✅ FUNZIONA!
 
@@ -176,14 +176,14 @@ SOLUZIONE:
   → Riavvia il PC
   → Riesegui install.bat o install.sh
 
-PROBLEMA: JARVIS non sente il microfono
+PROBLEMA: AYKO non sente il microfono
 SOLUZIONE:
   → Windows: Impostazioni → Privacy → Microfono → ON
   → macOS: Impostazioni → Sicurezza → Microfono → Consenti
   → Linux: Test con: arecord -l
-  → Riavvia JARVIS: python run.py
+  → Riavvia AYKO: python run.py
 
-PROBLEMA: JARVIS si apre ma non risponde ai comandi
+PROBLEMA: AYKO si apre ma non risponde ai comandi
 SOLUZIONE:
   → Ollama potrebbe ancora scaricare il modello
   → Nel Terminale digita: ollama pull tinyllama
@@ -215,14 +215,14 @@ DOPO L'INSTALLAZIONE
 
 ☐ Leggi i comandi disponibili in COMMANDS.md
 ☐ Prova altri comandi:
-   - "JARVIS, what time is it"
-   - "JARVIS, search python tutorial"
-   - "JARVIS, volume 80"
-   - "JARVIS, close youtube"
+   - "AYKO, what time is it"
+   - "AYKO, search python tutorial"
+   - "AYKO, volume 80"
+   - "AYKO, close youtube"
 
 ☐ Se vuoi personalizzare:
    → Apri: config/settings.json
-   → Cambia "wake_word" da "JARVIS" a quello che vuoi
+   → Cambia "wake_word" da "AYKO" a quello che vuoi
 
 ☐ Se vuoi aggiungere comandi:
    → Leggi: DEVELOPMENT.md
@@ -237,26 +237,26 @@ DOPO L'INSTALLAZIONE
 FINAL CHECKLIST - PRIMA DI DIRE "INSTALLATO"
 ═════════════════════════════════════════════════════════════════════
 
-☐ JARVIS si apre (finestra con sfera 3D verde)
+☐ AYKO si apre (finestra con sfera 3D verde)
 ☐ Clicco "Start Listening" → sfera diventa BLU
-☐ Parlo "JARVIS, apri youtube" → YouTube si apre
-☐ Ho capito come riaprire JARVIS (Terminale → activate → python run.py)
+☐ Parlo "AYKO, apri youtube" → YouTube si apre
+☐ Ho capito come riaprire AYKO (Terminale → activate → python run.py)
 ☐ Conosco un comando per testare (apri youtube, che time is it)
 ☐ So dove trovare aiuto (INSTALLATION_GUIDE.md, COMMANDS.md)
 
-✅ SE TUTTO OK: JARVIS È INSTALLATO E FUNZIONANTE!
+✅ SE TUTTO OK: AYKO È INSTALLATO E FUNZIONANTE!
 
 
-PER RIAPRIRE JARVIS DOMANI
+PER RIAPRIRE AYKO DOMANI
 ═════════════════════════════════════════════════════════════════════
 
 Windows:
-  1. Apri PowerShell nella cartella JARVIS
+  1. Apri PowerShell nella cartella AYKO
   2. .\venv\Scripts\activate.bat
   3. python run.py
 
 macOS/Linux:
-  1. Apri Terminale nella cartella JARVIS
+  1. Apri Terminale nella cartella AYKO
   2. source venv/bin/activate
   3. python run.py
 
