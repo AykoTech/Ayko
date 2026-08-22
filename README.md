@@ -64,10 +64,8 @@ ayko/
 │ ├── architecture/ARCHITECTURE.md
 │ ├── guides/COMMANDS.md
 │ ├── api/
-│ │ ├── core_api.md
-│ │ └── tools_api.md
-│ ├── CHANGELOG.md
-│ └── CONTRIBUTORS.md
+│   ├── core_api.md
+│   └── tools_api.md
 ├── tests/
 ├── requirements.txt
 └── .env.example
