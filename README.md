@@ -39,6 +39,7 @@ Dettagli tecnici: → [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCH
 
 ## 📁 STRUTTURA PROGETTO
 
+```text
 ayko/
 ├── src/
 │ ├── core/
@@ -70,7 +71,7 @@ ayko/
 ├── tests/
 ├── requirements.txt
 └── .env.example
-
+```
 
 ---
 
