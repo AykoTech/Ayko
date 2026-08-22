@@ -1,5 +1,5 @@
 ╔════════════════════════════════════════════════════════════════════════╗
-║          JARVIS INSTALLATION - MODIFICHE APPORTATE (RIEPILOGO)        ║
+║          AYKO INSTALLATION - MODIFICHE APPORTATE (RIEPILOGO)        ║
 ╚════════════════════════════════════════════════════════════════════════╝
 
 DATA: 2026-05-27
@@ -65,21 +65,21 @@ RISULTATO: Setup completamente automatizzato + Guide dettagliate
       ✅ Quick reference per riaperture future
    └─ Pubblico: Chi sa usare PC ma vuole quick reference
 
-6️⃣ start_jarvis.bat (Script riavvio Windows)
+6️⃣ start_ayko.bat (Script riavvio Windows)
    └─ Cosa fa:
-      ✅ Doppio-click e JARVIS si apre
+      ✅ Doppio-click e AYKO si apre
       ✅ Non serve digitare comandi
       ✅ Attiva venv automaticamente
       ✅ Gestisce errori comuni
-   └─ Uso: Windows users → Doppio click su start_jarvis.bat
+   └─ Uso: Windows users → Doppio click su start_ayko.bat
 
-7️⃣ start_jarvis.sh (Script riavvio macOS/Linux)
+7️⃣ start_ayko.sh (Script riavvio macOS/Linux)
    └─ Cosa fa:
-      ✅ Doppio-click e JARVIS si apre
+      ✅ Doppio-click e AYKO si apre
       ✅ Non serve digitare comandi
       ✅ Attiva venv automaticamente
       ✅ Gestisce errori comuni
-   └─ Uso: Mac/Linux users → Doppio click su start_jarvis.sh
+   └─ Uso: Mac/Linux users → Doppio click su start_ayko.sh
 
 
 🎯 IMPROVEMENT SUMMARY
@@ -97,7 +97,7 @@ DOPO:
 ├─ README.md: Routing chiaro per ogni persona
 ├─ INSTALLATION_GUIDE.md: 20 pagine di dettagli per ignoranti
 ├─ INSTALLATION_CHECKLIST.txt: Quick reference compatto
-├─ start_jarvis.bat/sh: Click-to-run per riaperture
+├─ start_ayko.bat/sh: Click-to-run per riaperture
 └─ Output: Italiane, emoji, visive
 
 
@@ -107,7 +107,7 @@ DOPO:
 PER IGNORANTI:
   ✅ INSTALLATION_GUIDE.md (20 pagine dettagliate)
   ✅ Install script semplificati (colori, emoji, progressi)
-  ✅ start_jarvis.bat/sh (no terminal needed)
+  ✅ start_ayko.bat/sh (no terminal needed)
   ✅ INSTALLATION_CHECKLIST.txt (passo-passo)
 
 PER DEVELOPER:
@@ -136,11 +136,11 @@ PRIMO RUN (Installazione):
   TOTALE: 15-30 minuti
 
 RIAPERTURE SUCCESSIVE:
-  Click start_jarvis.bat/sh ............. < 5 sec
+  Click start_ayko.bat/sh ............. < 5 sec
 
 TEST (Primo uso):
   Click "Start Listening" .............. 1 sec
-  Parla "JARVIS, apri youtube" ........ 1-2 sec
+  Parla "AYKO, apri youtube" ........ 1-2 sec
   YouTube si apre .................... < 1 sec
 
 
@@ -163,7 +163,7 @@ install.bat:
   ├─ Aggiunto: Pause per input utente
   └─ Aggiunto: Box decorativi con ╔╗╚╝
 
-start_jarvis.bat/sh:
+start_ayko.bat/sh:
   ├─ Creato: Script di riavvio semplice
   ├─ Funzione: Attiva venv + python run.py
   ├─ Gestione: Errori comuni con feedback
@@ -192,7 +192,7 @@ Checklist installazione:
   ✅ install.sh/bat: Automatizzati completi
   ✅ INSTALLATION_GUIDE.md: 20+ pagine dettagliate
   ✅ INSTALLATION_CHECKLIST.txt: Quick ref
-  ✅ start_jarvis.bat/sh: Click-to-run
+  ✅ start_ayko.bat/sh: Click-to-run
   ✅ README.md: Routing chiaro
   ✅ Output: Italiano + emoji
   ✅ Vosk model: Auto-download
@@ -207,16 +207,16 @@ Checklist installazione:
 PERSONA: Ignorante assoluto di informatica
 ├─ Legge: INSTALLATION_GUIDE.md (20 min di lettura)
 ├─ Esegue: .\install.bat o ./install.sh (15-30 min waiting)
-├─ Riaperture: Doppio-click su start_jarvis.bat/sh (< 5 sec)
+├─ Riaperture: Doppio-click su start_ayko.bat/sh (< 5 sec)
 ├─ Problemi: Guarda INSTALLATION_GUIDE.md troubleshooting
-└─ Risultato: JARVIS funzionante! ✅
+└─ Risultato: AYKO funzionante! ✅
 
 PERSONA: Developer/Esperto
 ├─ Legge: Quick start in README.md (30 sec)
 ├─ Esegue: .\install.bat o ./install.sh (15-30 min)
 ├─ Riaperture: Manuale come prima (3 comandi)
 ├─ Problemi: Check INSTALLATION_CHECKLIST.txt
-└─ Risultato: JARVIS funzionante! ✅
+└─ Risultato: AYKO funzionante! ✅
 
 
 ═══════════════════════════════════════════════════════════════════════════
@@ -224,6 +224,6 @@ PERSONA: Developer/Esperto
 MODIFICHE COMPLETATE ✅
 
 Tutti i file sono pronti per essere utilizzati.
-Utenti di tutti i livelli possono ora installare JARVIS facilmente.
+Utenti di tutti i livelli possono ora installare AYKO facilmente.
 
 ═══════════════════════════════════════════════════════════════════════════

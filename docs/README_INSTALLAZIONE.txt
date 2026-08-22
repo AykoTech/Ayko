@@ -1,5 +1,5 @@
 ╔════════════════════════════════════════════════════════════╗
-║  🤖 JARVIS v0.0.01 - INSTALLAZIONE                        ║
+║  🤖 AYKO v0.0.01 - INSTALLAZIONE                        ║
 ╚════════════════════════════════════════════════════════════╝
 
 📌 SCEGLI IL TUO PERCORSO:
@@ -27,6 +27,6 @@ PREREQUISITI VELOCI:
 AFTER SETUP:
 python run.py
 
-Parla: "JARVIS, apri youtube"
+Parla: "AYKO, apri youtube"
 
 ═════════════════════════════════════════════════════════════

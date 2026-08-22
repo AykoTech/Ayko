@@ -19,7 +19,7 @@ class TutorialMode:
                 "id": 0,
                 "title": "Welcome",
                 "description": "Press ALT+J to activate",
-                "commands": ["Say JARVIS"],
+                "commands": ["Say AYKO"],
                 "tips": ["You can activate from any app"],
                 "duration": "1 minute"
             },

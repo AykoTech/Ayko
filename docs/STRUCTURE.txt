@@ -1,11 +1,11 @@
-JARVIS v0.0.01 - Project Structure
+AYKO v0.0.01 - Project Structure
 ===================================
 
-📦 jarvis-ai/
+📦 ayko-ai/
 ├── 📄 README.md                 # Main documentation
 ├── 📄 requirements.txt           # Python dependencies
 ├── 📄 setup.py                  # Setup script
-├── 📄 run.py                    # Launch JARVIS
+├── 📄 run.py                    # Launch AYKO
 ├── 📄 .gitignore                # Git ignore rules
 │
 ├── 📂 src/                      # Source code
@@ -87,7 +87,7 @@ JARVIS v0.0.01 - Project Structure
 │       └── PIPELINE.md
 │
 ├── 📂 config/                   # Configuration
-│   └── settings.json            # JARVIS settings
+│   └── settings.json            # AYKO settings
 │
 ├── 📂 scripts/                  # Automation scripts
 │   ├── install.sh               # Installation script (macOS/Linux)

@@ -6,8 +6,8 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-class JARVISLogger:
-    """JARVIS logging system."""
+class AYKOLogger:
+    """AYKO logging system."""
     
     _instance = None
     
@@ -22,7 +22,7 @@ class JARVISLogger:
             return
         
         self._initialized = True
-        self.log_dir = Path.home() / ".jarvis" / "logs"
+        self.log_dir = Path.home() / ".ayko" / "logs"
         self.log_dir.mkdir(parents=True, exist_ok=True)
         
         self._setup_root_logger()
@@ -34,7 +34,7 @@ class JARVISLogger:
         
         # File handler
         file_handler = logging.FileHandler(
-            self.log_dir / "jarvis.log"
+            self.log_dir / "ayko.log"
         )
         file_handler.setLevel(logging.DEBUG)
         
@@ -62,5 +62,5 @@ class JARVISLogger:
 
 def setup_logger(name: str) -> logging.Logger:
     """Setup and return a named logger."""
-    JARVISLogger()  # ensure root logger configured
+    AYKOLogger()  # ensure root logger configured
     return logging.getLogger(name)

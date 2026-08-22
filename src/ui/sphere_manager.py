@@ -122,8 +122,8 @@ class SphereManager(QWidget):
         self.animation_config = animation_config or {}
         
         js_command = f"""
-            if (window.jarvisAPI && window.jarvisAPI.setState) {{
-                window.jarvisAPI.setState('{state}', {json.dumps(animation_config)});
+            if (window.aykoAPI && window.aykoAPI.setState) {{
+                window.aykoAPI.setState('{state}', {json.dumps(animation_config)});
             }}
         """
         
@@ -141,8 +141,8 @@ class SphereManager(QWidget):
         
         params = params or {}
         js_command = f"""
-            if (window.jarvisAPI && window.jarvisAPI.triggerAnimation) {{
-                window.jarvisAPI.triggerAnimation('{animation_type}', {json.dumps(params)});
+            if (window.aykoAPI && window.aykoAPI.triggerAnimation) {{
+                window.aykoAPI.triggerAnimation('{animation_type}', {json.dumps(params)});
             }}
         """
         
@@ -159,8 +159,8 @@ class SphereManager(QWidget):
             return
         
         js_command = f"""
-            if (window.jarvisAPI && window.jarvisAPI.setColors) {{
-                window.jarvisAPI.setColors('{primary_color}', '{secondary_color}');
+            if (window.aykoAPI && window.aykoAPI.setColors) {{
+                window.aykoAPI.setColors('{primary_color}', '{secondary_color}');
             }}
         """
         

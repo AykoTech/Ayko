@@ -1,4 +1,4 @@
-# 🤖 GUIDA INSTALLAZIONE JARVIS - PER IGNORANTI DI INFORMATICA
+# 🤖 GUIDA INSTALLAZIONE AYKO - PER IGNORANTI DI INFORMATICA
 
 **Leggi questa guida COMPLETAMENTE prima di iniziare.**
 
@@ -37,7 +37,7 @@ python run.py
 - Windows: Tasto destro "Questo PC" → Proprietà → "RAM installata"
 - macOS: Apple menu → "Informazioni su questo Mac" → Memoria
 - Linux: Terminal → `free -h` → visualizza memoria
-- **Se hai < 8GB:** JARVIS NON funzionerà bene
+- **Se hai < 8GB:** AYKO NON funzionerà bene
 
 #### 4️⃣ Quale sistema operativo hai?
 - **Windows 10/11** → Usa `install.bat`
@@ -50,7 +50,7 @@ python run.py
 
 ### STEP 1: Verifica Python (2 min)
 
-**Cos'è Python?** È un linguaggio di programmazione che JARVIS usa per funzionare.
+**Cos'è Python?** È un linguaggio di programmazione che AYKO usa per funzionare.
 
 **Che fare:**
 
@@ -84,13 +84,13 @@ python --version
 
 ---
 
-### STEP 2: Vai nella cartella JARVIS (1 min)
+### STEP 2: Vai nella cartella AYKO (1 min)
 
 1. Apri Esplora File (icona cartella nella barra)
-2. Naviga fino alla cartella che contiene i file JARVIS
+2. Naviga fino alla cartella che contiene i file AYKO
 3. Premi `Shift` + tasto destro del mouse nello spazio vuoto
 4. Clicca "Apri finestra PowerShell qui"
-5. Dovrebbe aparire la finestra nera con qualcosa tipo: `C:\Users\TuoNome\Desktop\jarvis-ai>`
+5. Dovrebbe aparire la finestra nera con qualcosa tipo: `C:\Users\TuoNome\Desktop\ayko-ai>`
 
 ---
 
@@ -144,7 +144,7 @@ Significa che Ollama non è su questo PC.
 
 ---
 
-### STEP 4: Avvia JARVIS (1 min)
+### STEP 4: Avvia AYKO (1 min)
 
 1. Nella stessa cartella, premi `Shift` + tasto destro → "Apri finestra PowerShell qui"
 2. Digita:
@@ -155,7 +155,7 @@ Significa che Ollama non è su questo PC.
 
 Dovrebbe apparire `(venv)` all'inizio della riga. Esempio:
 ```
-(venv) C:\Users\TuoNome\Desktop\jarvis-ai>
+(venv) C:\Users\TuoNome\Desktop\ayko-ai>
 ```
 
 3. Digita:
@@ -169,7 +169,7 @@ python run.py
 - Vedi una sfera 3D verde che ruota
 - In basso scritto "● READY"
 
-**FATTO!** JARVIS è avviato! 🎉
+**FATTO!** AYKO è avviato! 🎉
 
 ---
 
@@ -200,11 +200,11 @@ brew install python3
 
 ---
 
-### STEP 2: Vai nella cartella JARVIS (1 min)
+### STEP 2: Vai nella cartella AYKO (1 min)
 
 Nel Terminale digita:
 ```
-cd Desktop/jarvis-ai
+cd Desktop/ayko-ai
 ```
 (O il percorso dove hai messo la cartella)
 
@@ -245,7 +245,7 @@ L'installazione è finita!
 
 ---
 
-### STEP 5: Avvia JARVIS (1 min)
+### STEP 5: Avvia AYKO (1 min)
 
 Nel Terminale digita:
 ```
@@ -261,7 +261,7 @@ python run.py
 ```
 **Premi INVIO**
 
-Si apre JARVIS! 🎉
+Si apre AYKO! 🎉
 
 ---
 
@@ -276,7 +276,7 @@ Premi `Ctrl + Alt + T`
 ### STEP 2: Vai nella cartella
 
 ```
-cd Downloads/jarvis-ai
+cd Downloads/ayko-ai
 ```
 (O dove hai messo la cartella)
 
@@ -306,18 +306,18 @@ Aspetta 15-30 minuti.
 
 ---
 
-### STEP 5: Avvia JARVIS
+### STEP 5: Avvia AYKO
 
 ```
 source venv/bin/activate
 python run.py
 ```
 
-Si apre JARVIS! 🎉
+Si apre AYKO! 🎉
 
 ---
 
-## 🎤 PRIMO USO DI JARVIS
+## 🎤 PRIMO USO DI AYKO
 
 **Finestra aperta con sfera verde che ruota:**
 
@@ -325,7 +325,7 @@ Si apre JARVIS! 🎉
 2. La sfera diventa **blu** (significa che sta ascoltando)
 3. Parla ad alta voce:
    ```
-   "JARVIS, apri youtube"
+   "AYKO, apri youtube"
    ```
 4. Aspetta 1-2 secondi
 5. La sfera ritorna verde
@@ -366,14 +366,14 @@ pip install pyaudio
 **Causa:** Ollama già in esecuzione
 **Soluzione:** Riavvia il PC
 
-### JARVIS non sente il microfono
+### AYKO non sente il microfono
 **Causa:** Permessi microfono
 **Soluzione:**
 - Windows: Impostazioni → Privacy → Microfono → Consenti
 - macOS: Impostazioni → Sicurezza → Microfono → Consenti Terminale
 - Linux: Test con `arecord -l` nel Terminale
 
-### JARVIS si apre ma non fa niente quando parlo
+### AYKO si apre ma non fa niente quando parlo
 **Causa:** Ollama non ha scaricato il modello
 **Soluzione:** Nel Terminale esegui:
 ```bash
@@ -385,7 +385,7 @@ Aspetta 10 minuti che finisca il download.
 
 ## 🔧 VERIFICA CHE TUTTO FUNZIONI
 
-Prima di avviare JARVIS, puoi testare l'ambiente:
+Prima di avviare AYKO, puoi testare l'ambiente:
 
 ```bash
 python check_environment.py
@@ -397,7 +397,7 @@ Questo script ti dirà se:
 - ✅ Ollama è installato
 - ✅ Modelli sono scaricati
 
-Se tutto è ✅ → Avvia JARVIS con `python run.py`
+Se tutto è ✅ → Avvia AYKO con `python run.py`
 
 ---
 
@@ -405,7 +405,7 @@ Se tutto è ✅ → Avvia JARVIS con `python run.py`
 
 1. **Leggi gli errori:** Copia il messaggio di errore esatto
 2. **Google it:** Cerca l'errore su Google
-3. **Check GitHub Issues:** https://github.com/edoardopensi/jarvis-ai/issues
+3. **Check GitHub Issues:** https://github.com/edoardopensi/ayko-ai/issues
 4. **Run diagnostics:**
    ```bash
    python check_environment.py
@@ -427,16 +427,16 @@ Prima di dire "è installato":
 - [ ] Ho eseguito `python run.py`
 - [ ] Si è aperta una finestra con sfera 3D verde
 - [ ] Ho cliccato "Start Listening"
-- [ ] Ho parlato: "JARVIS, apri youtube"
+- [ ] Ho parlato: "AYKO, apri youtube"
 - [ ] YouTube si è aperto nel browser
 
-**Se TUTTO è ✅** → JARVIS è installato e funzionante! 🚀
+**Se TUTTO è ✅** → AYKO è installato e funzionante! 🚀
 
 ---
 
 ## 🎓 PROSSIMI PASSI
 
-1. **Usa JARVIS:** Prova i comandi in `COMMANDS.md`
+1. **Usa AYKO:** Prova i comandi in `COMMANDS.md`
 2. **Personalizza:** Apri `config/settings.json` e cambia il wake-word
 3. **Estendi:** Leggi `DEVELOPMENT.md` per aggiungere nuovi comandi
 4. **Migliora:** Fornisci feedback su GitHub

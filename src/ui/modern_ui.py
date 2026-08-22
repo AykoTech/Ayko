@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Modern UI launcher for JARVIS."""
+"""Modern UI launcher for AYKO."""
 
 import sys
 import logging
@@ -9,7 +9,7 @@ logger = logging.getLogger("ModernUI")
 
 
 def launch_modern_ui():
-    """Launch JARVIS modern interface."""
+    """Launch AYKO modern interface."""
     try:
         from PyQt6.QtWidgets import QApplication
     except ImportError:
@@ -17,12 +17,12 @@ def launch_modern_ui():
         sys.exit(1)
 
     app = QApplication(sys.argv)
-    app.setApplicationName("JARVIS")
+    app.setApplicationName("AYKO")
     app.setApplicationVersion("0.0.01")
 
     try:
-        from .jarvis_app import JARVISApp
-        window = JARVISApp()
+        from .ayko_app import AYKOApp
+        window = AYKOApp()
         window.show()
     except Exception as e:
         logger.warning(f"Full app failed ({e}), launching minimal UI")
@@ -41,7 +41,7 @@ class MinimalLauncher:
         from PyQt6.QtGui import QFont
 
         self._win = QMainWindow()
-        self._win.setWindowTitle("JARVIS v0.0.01")
+        self._win.setWindowTitle("AYKO v0.0.01")
         self._win.setGeometry(100, 100, 900, 600)
         self._win.setStyleSheet("background-color: #0a0e27; color: #00ff41;")
 
@@ -50,13 +50,13 @@ class MinimalLauncher:
         layout.setSpacing(12)
         layout.setContentsMargins(20, 20, 20, 20)
 
-        title = QLabel("🤖 JARVIS v0.0.01")
+        title = QLabel("🤖 AYKO v0.0.01")
         title.setFont(QFont("Arial", 22, QFont.Weight.Bold))
         title.setStyleSheet("color: #00ff41;")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
 
-        subtitle = QLabel("Desktop AI Assistant — Privacy First")
+        subtitle = QLabel("Desktop AI Coworker — Privacy First")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setStyleSheet("color: #00aa20; font-size: 13px;")
         layout.addWidget(subtitle)
@@ -87,7 +87,7 @@ class MinimalLauncher:
         layout.addWidget(self._btn)
 
         self._win.setCentralWidget(central)
-        self._log_entry("JARVIS initialized. Ollama + Vosk required for full functionality.")
+        self._log_entry("AYKO initialized. Ollama + Vosk required for full functionality.")
         self._log_entry("Install: pip install -r requirements.txt")
         self._log_entry("LLM: ollama pull tinyllama")
 

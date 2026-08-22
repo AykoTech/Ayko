@@ -1,10 +1,10 @@
 # Core API Reference
 
-## JARVISCore
+## AYKOCore
 
 ### `execute_command(text: str) -> Dict`
 
-Execute a JARVIS command.
+Execute a AYKO command.
 
 **Parameters:**
 - `text` (str): Command to execute

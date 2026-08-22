@@ -1,6 +1,6 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
-║              🎉 JARVIS v0.0.01 - SCARICA E INSTALLA 🎉                      ║
+║              🎉 AYKO v0.0.01 - SCARICA E INSTALLA 🎉                      ║
 ║                                                                              ║
 ║                    45 file pronti per il download                           ║
 ║                                                                              ║
@@ -9,7 +9,7 @@
 
 ✅ DOWNLOAD COMPLETATO
 
-Tutti i file di JARVIS sono pronti per il download in questa cartella.
+Tutti i file di AYKO sono pronti per il download in questa cartella.
 
 📊 COSA HAI:
   ✓ 45 file totali
@@ -29,7 +29,7 @@ Tutti i file di JARVIS sono pronti per il download in questa cartella.
    - OU scarica l'intero progetto come ZIP
 
 2. ESTRAI I FILE
-   - Crea una cartella "JARVIS"
+   - Crea una cartella "AYKO"
    - Estrai tutti i file dentro
 
 3. APRI IL PROGETTO
@@ -43,7 +43,7 @@ Tutti i file di JARVIS sono pronti per il download in questa cartella.
    - Setup automatico (5-15 minuti)
 
 6. AVVIA python run.py
-   - JARVIS è pronto!
+   - AYKO è pronto!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -78,7 +78,7 @@ CARTELLA src/ (codice):
   │   └─ ...
   ├─ ui/ (interfaccia PyQt6)
   │   ├─ main_window.py
-  │   ├─ jarvis_sphere.py
+  │   ├─ ayko_sphere.py
   │   └─ settings_panel.py
   └─ utils/ (config, logging)
 
@@ -146,7 +146,7 @@ macOS/LINUX:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ COSA CONTIENE JARVIS
+✨ COSA CONTIENE AYKO
 
 ✓ Riconoscimento vocale offline (Vosk)
 ✓ Interpretazione linguistica (Ollama LLM)
@@ -203,7 +203,7 @@ Tutto quello che serve per iniziare subito!
 
 Scarica i file, estrai in una cartella, e leggi START_HERE.txt
 
-In 5 minuti avrai JARVIS funzionante!
+In 5 minuti avrai AYKO funzionante!
 
 ═══════════════════════════════════════════════════════════════════════════════
 

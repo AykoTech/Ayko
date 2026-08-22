@@ -1,4 +1,4 @@
-# JARVIS ui package
+# AYKO ui package
 from .main_window import MainWindow
 from .sphere_manager import SphereManager
 from .cinematic_ui import CinematicUI

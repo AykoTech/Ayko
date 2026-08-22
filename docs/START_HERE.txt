@@ -1,24 +1,24 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
-║                 🚀 JARVIS v0.0.01 - START HERE 🚀                          ║
+║                 🚀 AYKO v0.0.01 - START HERE 🚀                          ║
 ║                                                                              ║
-║                       Desktop AI Assistant                                   ║
+║                       Desktop AI Coworker                                   ║
 ║                      by Edoardo Pensi (2026)                               ║
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 
-📋 WHAT IS JARVIS?
+📋 WHAT IS AYKO?
 ────────────────────────────────────────────────────────────────────────────
 
-JARVIS is a voice-controlled desktop AI assistant that:
+AYKO is a voice-controlled desktop AI coworker that:
   ✓ Understands natural language commands
   ✓ Executes system actions (open apps, search web, get info)
   ✓ Runs completely locally (no cloud)
   ✓ Works on Windows, macOS, and Linux
   ✓ Has a beautiful 3D animated interface
 
-Inspired by Marvel's JARVIS but completely open-source and free.
+Inspired by Marvel's AYKO but completely open-source and free.
 
 
 🎯 GET STARTED (2 MINUTES)
@@ -39,16 +39,16 @@ Choose your OS:
     5. Run: python run.py
 
 
-🎤 USE JARVIS
+🎤 USE AYKO
 ────────────────────────────────────────────────────────────────────────────
 
 Say these commands:
 
-  "JARVIS, open youtube"
-  "JARVIS, what time is it"
-  "JARVIS, search python tutorials"
-  "JARVIS, volume 80"
-  "JARVIS, close chrome"
+  "AYKO, open youtube"
+  "AYKO, what time is it"
+  "AYKO, search python tutorials"
+  "AYKO, volume 80"
+  "AYKO, close chrome"
 
 See COMMANDS.md for 80+ examples.
 
@@ -64,7 +64,7 @@ UNDERSTAND THE PROJECT:
   → ARCHITECTURE.md (15 min) - How it works
   → COMPLIANCE_CHECKLIST.md (5 min) - Validation proof
 
-EXTEND JARVIS:
+EXTEND AYKO:
   → DEVELOPMENT.md (10 min) - Create custom tools
   → src/core/tools.py - See examples
 
@@ -126,7 +126,7 @@ A: Windows: Settings > Privacy > Microphone > Allow
 Q: How do I add custom commands?
 A: Read DEVELOPMENT.md (5 min guide included)
 
-Q: Can I change the wake-word from "JARVIS"?
+Q: Can I change the wake-word from "AYKO"?
 A: Yes! Settings panel in the app.
 
 Q: Does it need internet?
@@ -154,7 +154,7 @@ Code:
 
 UI:
   ✓ PyQt6 modern interface
-  ✓ 3D animated JARVIS sphere
+  ✓ 3D animated AYKO sphere
   ✓ Real-time command logging
   ✓ Settings panel
 
@@ -183,7 +183,7 @@ Testing:
 
 4. [RUN] python run.py
 
-5. [USE] Speak: "JARVIS, open youtube"
+5. [USE] Speak: "AYKO, open youtube"
 
 6. [LEARN] Read ARCHITECTURE.md to understand how it works
 
@@ -193,7 +193,7 @@ Testing:
 💡 PRO TIPS
 ────────────────────────────────────────────────────────────────────────────
 
-• Check logs/jarvis.log if something goes wrong
+• Check logs/ayko.log if something goes wrong
 • Use check_environment.py to diagnose issues
 • See COMMANDS.md for 80+ command examples
 • Customize wake-word in Settings

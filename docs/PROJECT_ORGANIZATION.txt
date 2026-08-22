@@ -1,5 +1,5 @@
 ╔═══════════════════════════════════════════════════════════════════════════════╗
-║                   JARVIS v0.0.01 - PROJECT ORGANIZATION                      ║
+║                   AYKO v0.0.01 - PROJECT ORGANIZATION                      ║
 ║                          Final Structure Report                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 
@@ -10,7 +10,7 @@
 ─────────────────────────
 README.md               → Main documentation entry point
 setup.py               → Python package setup script
-run.py                 → JARVIS launcher
+run.py                 → AYKO launcher
 requirements.txt       → Python dependencies
 .gitignore             → Git ignore rules
 .env.example           → Environment variables template

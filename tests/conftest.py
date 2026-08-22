@@ -14,9 +14,9 @@ def temp_config(tmp_path):
 
 @pytest.fixture
 def mock_core():
-    """Fixture for mock JARVIS core."""
-    from core.core import JARVISCore
-    return JARVISCore()
+    """Fixture for mock AYKO core."""
+    from core.core import AYKOCore
+    return AYKOCore()
 
 @pytest.fixture
 def mock_command_memory(tmp_path):

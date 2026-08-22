@@ -1,33 +1,33 @@
 #!/usr/bin/env python3
 """
-JARVIS v0.0.01 - Desktop AI Coworker
+AYKO v0.0.01 - Desktop AI Coworker
 GNU General Public License v3.0
 """
 
 import sys
 import logging
 
-from utils.logger import JARVISLogger
-_jarvis_logger = JARVISLogger()
-logger = logging.getLogger("JARVIS_MAIN")
+from utils.logger import AYKOLogger
+_ayko_logger = AYKOLogger()
+logger = logging.getLogger("AYKO_MAIN")
 
 try:
     from PyQt6.QtWidgets import QApplication
     from core.audio_input import AudioInputManager
     from core.llm_engine import LLMEngine
     from core.tts_engine import TTSEngine
-    from core.core import JARVISCore
+    from core.core import AYKOCore
     from utils.config import Config
-    from ui.jarvis_app import JARVISApp
+    from ui.ayko_app import AYKOApp
 except ImportError as e:
     print(f"ERROR: {e}")
     print("Run: pip install -r requirements.txt")
     sys.exit(1)
 
 
-def build_core(config: Config) -> JARVISCore:
+def build_core(config: Config) -> AYKOCore:
     """Composition root: costruisce le dipendenze concrete e le inietta
-    in JARVISCore. Core stesso non sa COME si costruisce un LLM/TTS/Audio,
+    in AYKOCore. Core stesso non sa COME si costruisce un LLM/TTS/Audio,
     riceve solo istanze già pronte."""
 
     try:
@@ -49,7 +49,7 @@ def build_core(config: Config) -> JARVISCore:
 
     audio = None
     try:
-        candidate = AudioInputManager(wake_word="JARVIS")
+        candidate = AudioInputManager(wake_word="AYKO")
         if candidate.model_loaded:
             audio = candidate
         else:
@@ -57,20 +57,20 @@ def build_core(config: Config) -> JARVISCore:
     except Exception as e:
         logger.warning(f"Audio unavailable: {e}")
 
-    return JARVISCore(llm=llm, tts=tts, audio=audio)
+    return AYKOCore(llm=llm, tts=tts, audio=audio)
 
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("JARVIS")
+    app.setApplicationName("AYKO")
 
     config = Config()
     core = build_core(config)
 
-    # NOTA: JARVISApp non esiste ancora (in attesa della tua UI HTML).
+    # NOTA: AYKOApp non esiste ancora (in attesa della tua UI HTML).
     # Quando arriva, andrà costruita passandole `core` per collegare
     # segnali/comandi (core.command_completed, core.speaking, ecc.)
-    window = JARVISApp()
+    window = AYKOApp()
     window.show()
     sys.exit(app.exec())
 

@@ -15,7 +15,7 @@ from pathlib import Path
 logger = logging.getLogger("MainWindow")
 
 class MainWindow(QWidget):
-    """Main JARVIS UI with 3D sphere"""
+    """Main AYKO UI with 3D sphere"""
     
     def __init__(self, parent=None):
         super().__init__()
@@ -52,7 +52,7 @@ class MainWindow(QWidget):
         right_layout.setSpacing(10)
         
         # Title
-        title = QLabel("JARVIS v0.0.01")
+        title = QLabel("AYKO v0.0.01")
         title.setFont(QFont("Arial", 14, QFont.Weight.Bold))
         title.setStyleSheet("color: #00ff41;")
         right_layout.addWidget(title)

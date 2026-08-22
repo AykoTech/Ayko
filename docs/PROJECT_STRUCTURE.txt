@@ -1,7 +1,7 @@
-JARVIS AI v0.0.01 - Project Structure
+AYKO AI v0.0.01 - Project Structure
 =====================================
 
-jarvis-ai/
+ayko-ai/
 │
 ├── 📄 README.md                    # Setup completo (START HERE!)
 ├── 📄 DEVELOPMENT.md               # Developer guide
@@ -21,7 +21,7 @@ jarvis-ai/
 │   ├── ui/                         # PyQt6 User Interface
 │   │   ├── __init__.py
 │   │   ├── main_window.py          # Finestra principale
-│   │   ├── jarvis_sphere.py        # Web-based 3D sphere loader
+│   │   ├── ayko_sphere.py        # Web-based 3D sphere loader
 │   │   └── settings_panel.py       # Settings GUI
 │   │
 │   ├── utils/                      # Utility modules
@@ -33,7 +33,7 @@ jarvis-ai/
 │   └── test_audio.py               # Audio device test script
 │
 ├── 🎨 assets/                      # Media assets
-│   ├── sphere.html                 # THREE.js 3D sfera JARVIS
+│   ├── sphere.html                 # THREE.js 3D sfera AYKO
 │   └── icon.png                    # App icon (opzionale)
 │
 ├── ⚙️ config/                      # Configuration
@@ -49,7 +49,7 @@ jarvis-ai/
 FLUSSO OPERATIVO
 ================
 
-1. User parla: "JARVIS, apri youtube"
+1. User parla: "AYKO, apri youtube"
                     ↓
 2. AudioInputManager cattura e riconosce wake-word
                     ↓
@@ -136,7 +136,7 @@ CPU Usage:
 DEVELOPMENT QUICKSTART
 =======================
 
-1. Clone: git clone https://github.com/edoardopensi/jarvis-ai.git
+1. Clone: git clone https://github.com/edoardopensi/ayko-ai.git
 
 2. Setup:
    - Windows: .\install.bat
@@ -184,14 +184,14 @@ Built with:
   - pyttsx3
   - Three.js
 
-Inspired by: Marvel's JARVIS (Iron Man)
+Inspired by: Marvel's AYKO (Iron Man)
 
 
 SUPPORT & COMMUNITY
 ===================
 
-Issues: github.com/edoardopensi/jarvis-ai/issues
+Issues: github.com/edoardopensi/ayko-ai/issues
 Docs: README.md, DEVELOPMENT.md, COMMANDS.md
-Logging: logs/JARVIS.log
+Logging: logs/AYKO.log
 
 

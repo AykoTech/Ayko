@@ -1,9 +1,9 @@
 #!/bin/bash
-# Advanced JARVIS Setup Script
+# Advanced AYKO Setup Script
 
 set -e
 
-echo "🚀 JARVIS v0.0.01 - Advanced Setup"
+echo "🚀 AYKO v0.0.01 - Advanced Setup"
 echo "===================================="
 echo ""
 
@@ -47,9 +47,9 @@ echo ""
 
 # Create directories
 echo -e "${BLUE}Creating directories...${NC}"
-mkdir -p ~/.jarvis/logs
-mkdir -p ~/.jarvis/config
-mkdir -p ~/.jarvis/data
+mkdir -p ~/.ayko/logs
+mkdir -p ~/.ayko/config
+mkdir -p ~/.ayko/data
 echo -e "${GREEN}✓ Directories created${NC}"
 
 echo ""
@@ -63,15 +63,15 @@ echo ""
 
 # Test import
 echo -e "${BLUE}Testing imports...${NC}"
-python -c "from src.core.core import JARVISCore; print('✓ Core imports OK')"
+python -c "from src.core.core import AYKOCore; print('✓ Core imports OK')"
 
 echo ""
 
 echo -e "${GREEN}════════════════════════════════════════════════════"
-echo -e "✓ JARVIS Setup Complete!"
+echo -e "✓ AYKO Setup Complete!"
 echo -e "════════════════════════════════════════════════════${NC}"
 echo ""
 echo "Next steps:"
 echo "  1. Activate venv: source venv/bin/activate"
-echo "  2. Run JARVIS: python run.py"
+echo "  2. Run AYKO: python run.py"
 echo ""

@@ -53,7 +53,7 @@ class HeaderBar(QWidget):
         # Logo / Title
         title_layout = QHBoxLayout()
         
-        logo_label = QLabel("JARVIS")
+        logo_label = QLabel("AYKO")
         logo_label.setFont(QFont("Arial", 16, QFont.Weight.Bold))
         logo_label.setStyleSheet(f"color: {PROFESSIONAL_THEME['accent_blue']};")
         title_layout.addWidget(logo_label)

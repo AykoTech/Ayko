@@ -1,13 +1,13 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                         JARVIS v0.0.01                                       ║
-║                    Desktop AI Assistant                                      ║
+║                         AYKO v0.0.01                                       ║
+║                    Desktop AI Coworker                                      ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 PROJECT INFORMATION
 ───────────────────────────────────────────────────────────────────────────────
 
-Name:         JARVIS v0.0.01
-Full Name:    JARVIS - Desktop AI Assistant for Tony Stark (inspired)
+Name:         AYKO v0.0.01
+Full Name:    AYKO - Desktop AI Coworker for Tony Stark (inspired)
 Creator:      Edoardo Pensi
 License:      GNU General Public License v3.0 (GPL-3.0)
 Repository:   GitHub ready
@@ -24,7 +24,7 @@ Stability:    Alpha (Feature Complete)
 LICENSE
 ───────────────────────────────────────────────────────────────────────────────
 
-JARVIS is released under the GNU General Public License v3.0
+AYKO is released under the GNU General Public License v3.0
 
 Key terms:
   ✓ Free to use, modify, and distribute
@@ -72,7 +72,7 @@ FEATURES
 ───────────────────────────────────────────────────────────────────────────────
 
 ✓ Voice Command Recognition
-  • Real-time wake-word detection ("JARVIS")
+  • Real-time wake-word detection ("AYKO")
   • Offline speech-to-text (Vosk)
   • Custom wake-word support
 
@@ -83,7 +83,7 @@ FEATURES
 
 ✓ User Interface
   • PyQt6 modern desktop application
-  • 3D animated JARVIS sphere (Three.js - MIT)
+  • 3D animated AYKO sphere (Three.js - MIT)
   • Real-time command logging
   • Settings panel (wake-word, model, volume)
 
@@ -120,10 +120,10 @@ Start:
   python run.py
 
 Commands:
-  "JARVIS, open youtube"
-  "JARVIS, what time is it"
-  "JARVIS, search python"
-  "JARVIS, volume 80"
+  "AYKO, open youtube"
+  "AYKO, what time is it"
+  "AYKO, search python"
+  "AYKO, volume 80"
 
 See COMMANDS.md for 80+ examples
 
@@ -213,7 +213,7 @@ v1.0.0 (Planned):
 SUPPORT & COMMUNITY
 ───────────────────────────────────────────────────────────────────────────────
 
-GitHub:      https://github.com/edoardopensi/jarvis-ai
+GitHub:      https://github.com/edoardopensi/ayko-ai
 Issues:      Report on GitHub issues
 Docs:        Complete documentation included
 Tests:       Automated validation included
@@ -221,9 +221,9 @@ Tests:       Automated validation included
 LICENSE & ATTRIBUTION
 ───────────────────────────────────────────────────────────────────────────────
 
-JARVIS v0.0.01 is released under GNU GPL 3.0
+AYKO v0.0.01 is released under GNU GPL 3.0
 Creator:      Edoardo Pensi
-Inspired by:  Marvel's JARVIS (Iron Man)
+Inspired by:  Marvel's AYKO (Iron Man)
 
 GPL 3.0 means:
   ✓ Free software - use, modify, distribute
@@ -256,7 +256,7 @@ GETTING STARTED
 1. Read:   QUICKSTART.md
 2. Setup:  .\install.bat (Windows) or ./install.sh (macOS/Linux)
 3. Run:    python run.py
-4. Speak:  "JARVIS, open youtube"
+4. Speak:  "AYKO, open youtube"
 
 Questions? Check the documentation!
 

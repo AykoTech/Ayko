@@ -1,4 +1,4 @@
-# 🤖 JARVIS v0.0.01 - Desktop AI Coworker
+# 🤖 AYKO v0.0.01 - Desktop AI Coworker
 
 > **Coworker AI vocale completamente locale - Privacy first**
 
@@ -43,13 +43,13 @@ python run.py
 ### 1️⃣ PRIMA VOLTA (Installazione completa)
 
 **Windows:**
-1. Apri PowerShell nella cartella JARVIS
+1. Apri PowerShell nella cartella AYKO
 2. Digita: `.\install.bat`
 3. Aspetta 15-30 minuti
 4. Quando finisce, digita: `python run.py`
 
 **macOS/Linux:**
-1. Apri Terminale nella cartella JARVIS
+1. Apri Terminale nella cartella AYKO
 2. Digita: `chmod +x install.sh`
 3. Digita: `./install.sh`
 4. Aspetta 15-30 minuti
@@ -60,11 +60,11 @@ python run.py
 
 ---
 
-### 2️⃣ RIAPRIRE JARVIS (Dopo l'installazione)
+### 2️⃣ RIAPRIRE AYKO (Dopo l'installazione)
 
 **Modo facile (clicca e via):**
-- Windows: Doppio click su `start_jarvis.bat`
-- macOS/Linux: Doppio click su `start_jarvis.sh`
+- Windows: Doppio click su `start_ayko.bat`
+- macOS/Linux: Doppio click su `start_ayko.sh`
 
 **Modo manuale (3 righe):**
 
@@ -85,7 +85,7 @@ python run.py
 ## 🎤 PRIMO USO
 
 1. Clicca **"🎤 Start Listening"** (pulsante blu)
-2. Parla chiaro: **"JARVIS, apri youtube"**
+2. Parla chiaro: **"AYKO, apri youtube"**
 3. Aspetta 1-2 secondi
 4. YouTube si apre nel browser ✅
 
@@ -110,7 +110,7 @@ python run.py
 
 **Flusso semplice:**
 ```
-TU PARLI → Vosk ascolta → LLM interpreta → JARVIS esegue → JARVIS risponde
+TU PARLI → Vosk ascolta → LLM interpreta → AYKO esegue → AYKO risponde
 ```
 
 **Senza cloud. 100% locale. Privacy garantita.**
@@ -145,7 +145,7 @@ Dettagli: → [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md)
 → Attiva ambiente: `source venv/bin/activate` (o `.bat` su Windows)
 → Reinstalla: `pip install -r requirements.txt`
 
-**JARVIS non sente il microfono**
+**AYKO non sente il microfono**
 → Windows: Settings → Privacy → Microphone → ON
 → macOS: System Preferences → Security → Microphone → Allow
 
@@ -155,7 +155,7 @@ Dettagli: → [ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md)
 
 ## 🎓 DOPO L'INSTALLAZIONE
 
-1. **Usa JARVIS:** Prova i comandi in [COMMANDS.md](COMMANDS.md)
+1. **Usa AYKO:** Prova i comandi in [COMMANDS.md](COMMANDS.md)
 2. **Personalizza:** Apri `config/settings.json`, cambia wake-word
 3. **Estendi:** Leggi [DEVELOPMENT.md](DEVELOPMENT.md) per nuovi tool
 4. **Contribuisci:** Fork su GitHub e fai una PR
@@ -224,7 +224,7 @@ GNU General Public License v3.0
 
 ## 📞 SUPPORT
 
-- **Issues:** [GitHub Issues](https://github.com/edoardopensi/jarvis-ai/issues)
+- **Issues:** [GitHub Issues](https://github.com/edoardopensi/ayko-ai/issues)
 - **Docs:** Completa in questa cartella
 - **Troubleshooting:** [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md)
 
@@ -233,7 +233,7 @@ GNU General Public License v3.0
 ## 🎉 CREDITS
 
 **Creator:** Edoardo Pensi
-**Inspired by:** Marvel's JARVIS (Iron Man)
+**Inspired by:** Marvel's AYKO (Iron Man)
 **Built with:** Python, PyQt6, Vosk, Ollama, pyttsx3, Three.js
 
 ---

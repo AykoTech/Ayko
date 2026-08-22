@@ -21,7 +21,7 @@ class CommandMemory:
     
     def __init__(self, max_size: int = MAX_HISTORY_SIZE, config_path: Path = None):
         self.history: deque = deque(maxlen=max_size)
-        self.config_path = config_path or Path.home() / ".jarvis" / "command_history.json"
+        self.config_path = config_path or Path.home() / ".ayko" / "command_history.json"
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
         
         self._lock = threading.RLock()

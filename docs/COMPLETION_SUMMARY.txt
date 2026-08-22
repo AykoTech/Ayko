@@ -1,6 +1,6 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
-║                  JARVIS v0.0.01 - IMPLEMENTATION COMPLETE                    ║
+║                  AYKO v0.0.01 - IMPLEMENTATION COMPLETE                    ║
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
@@ -101,8 +101,8 @@ Configuration:
    
 4. USE
    Click "Start Listening"
-   Say: "JARVIS, open youtube"
-   Observe: JARVIS responds and executes
+   Say: "AYKO, open youtube"
+   Observe: AYKO responds and executes
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -188,7 +188,7 @@ For Understanding:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🎯 WHAT YOU CAN DO WITH JARVIS
+🎯 WHAT YOU CAN DO WITH AYKO
 
 System Control:
   • Open/close any application
@@ -249,7 +249,7 @@ Before Deployment:
   [ ] Run test_architecture.py
   [ ] Run validate_architecture.py
   [ ] Test with: python src/main.py
-  [ ] Say "JARVIS" and test commands
+  [ ] Say "AYKO" and test commands
   
 For Development:
   [ ] Read ARCHITECTURE.md
@@ -265,8 +265,8 @@ For Development:
 Immediate (Today):
   1. Read README.md
   2. Run install.bat/install.sh
-  3. Start JARVIS: python src/main.py
-  4. Test: Say "JARVIS, open notepad"
+  3. Start AYKO: python src/main.py
+  4. Test: Say "AYKO, open notepad"
 
 Short Term (This Week):
   1. Read ARCHITECTURE.md
@@ -284,7 +284,7 @@ Long Term (This Month):
 
 🚀 YOU'RE ALL SET!
 
-JARVIS v0.0.01 is complete, tested, and ready to use.
+AYKO v0.0.01 is complete, tested, and ready to use.
 
 Everything you need is in this project:
   ✓ Working code
