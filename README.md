@@ -52,14 +52,14 @@ ayko/
 │ │ ├── tool_registry.py # Registry + ToolExecutor
 │ │ ├── tools.py # Implementazioni tool
 │ │ └── [moduli orfani] # Feature future (skeleton)
-│ ├── ui/
-│ │ └── [in arrivo] # UI HTML + bridge PyQt6
 │ └── utils/
 │ ├── config.py # Config manager
 │ └── logger.py # Logging setup
 ├── config/
 │ ├── settings.json # Impostazioni utente
 │ └── default_settings.json # Template default
+├── assets/
+│ └── ayko_dashboard.html
 ├── docs/
 │ ├── architecture/ARCHITECTURE.md
 │ ├── guides/COMMANDS.md
