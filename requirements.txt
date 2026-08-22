@@ -1,28 +1,29 @@
-# ── UI ──────────────────────────────────────────────────────────────────────
-PyQt6==6.7.1
-PyQt6-WebEngine==6.7.0
+# JARVIS v0.0.01 - Desktop AI Coworker
+# GNU General Public License v3.0
+# Python 3.9+
 
-# ── Voice input ──────────────────────────────────────────────────────────────
+# ===== CORE AUDIO/LLM =====
 vosk==0.3.45
-sounddevice==0.4.7
-
-# ── Voice output ─────────────────────────────────────────────────────────────
+sounddevice==0.4.6
+requests==2.31.0
 pyttsx3==2.90
 
-# ── Hotkeys ──────────────────────────────────────────────────────────────────
-pynput==1.7.7
+# ===== UI & DESKTOP =====
+PyQt6==6.7.1
+PyQt6-WebEngine==6.7.1
 
-# ── System / utilities ───────────────────────────────────────────────────────
+# ===== SYSTEM & UTILITIES =====
 psutil==5.9.8
-numpy==1.26.4
-requests==2.32.3
-python-dotenv==1.0.1
+pynput==1.7.6
+python-dotenv==1.0.0
+Pillow==10.1.0
 
-# ── LLM (Ollama client — optional, used if Ollama is running) ────────────────
-# ollama>=0.2.0   # uncomment if using Python Ollama SDK instead of raw HTTP
+# ===== DEVELOPMENT & TESTING =====
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-qt==4.2.0
 
-# ── Dev / QA (optional) ──────────────────────────────────────────────────────
-pytest==8.2.2
-black==24.4.2
-flake8==7.1.0
-mypy==1.10.0
+# ===== OPTIONAL (Feature orfane, incluse per completezza) =====
+# nltk==3.8.1          # personality.py (skeleton)
+# numpy==1.24.3        # voice_emotion.py (skeleton)
+# scipy==1.11.4        # voice_emotion.py (skeleton)
