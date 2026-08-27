@@ -732,7 +732,9 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
       </div>
     </div>
   </div>
-</div><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script>
 /* ============ Icon helper ============ */
 const ICONS={
@@ -991,7 +993,13 @@ function refreshStatus(){
   if(busy) statusText.textContent='Elaborazione…';
   else statusText.textContent=listening?'In ascolto…':'Pronto';
 }
-function setListening(v){listening=v;refreshStatus();}
+function setListening(v){
+  listening=v;
+  refreshStatus();
+  if(!aykoBridge) return;
+  if(v) aykoBridge.startListening();
+  else aykoBridge.stopListening();
+}
 document.getElementById('micBtn').addEventListener('click',()=>setListening(!listening));
 document.getElementById('micPill').addEventListener('click',()=>setListening(!listening));
 addEventListener('keydown',e=>{
@@ -1093,8 +1101,12 @@ async function sendCommand(){
   await archiveAttachedFiles(attachedFiles,val);
   cmdInput.value='';
   clearAttachments();
-  busy=true;refreshStatus();
-  setTimeout(()=>{busy=false;refreshStatus();},1100);
+  if(aykoBridge && val){
+    aykoBridge.processTextCommand(val);
+  }else{
+    busy=true;refreshStatus();
+    setTimeout(()=>{busy=false;refreshStatus();},1100);
+  }
 }
 function sendPreset(text){cmdInput.value=text;sendCommand();}
 cmdForm.addEventListener('submit',e=>{e.preventDefault();sendCommand();});
@@ -1913,6 +1925,36 @@ async function archiveAttachedFiles(entries,messageText){
   await applyRetention();
   updateArchiveBadge();
 })();
+
+// --- AYKO bridge: collega la dashboard al backend Python ---
+let aykoBridge = null;
+
+if (typeof QWebChannel !== 'undefined' && typeof qt !== 'undefined') {
+  new QWebChannel(qt.webChannelTransport, function(channel) {
+    aykoBridge = channel.objects.aykoBridge;
+
+    aykoBridge.commandReceived.connect(function(payloadJson) {
+      const data = JSON.parse(payloadJson);
+      addActivity('Riconosciuto: "' + data.text + '"');
+    });
+
+    aykoBridge.commandProcessing.connect(function() {
+      busy = true; refreshStatus();
+    });
+
+    aykoBridge.commandCompleted.connect(function(payloadJson) {
+      const result = JSON.parse(payloadJson);
+      busy = false; refreshStatus();
+      addActivity((result.success ? '✓ ' : '✗ ') + result.result);
+    });
+
+    aykoBridge.errorOccurred.connect(function(payloadJson) {
+      const data = JSON.parse(payloadJson);
+      busy = false; refreshStatus();
+      addActivity('✗ Errore: ' + data.message);
+    });
+  });
+}
 </script>
 </body>
 </html>
