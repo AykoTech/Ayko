@@ -41,34 +41,93 @@ Dettagli tecnici: → [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCH
 
 ```text
 ayko/
-├── src/
-│ ├── core/
-│ │ ├── core.py # Orchestratore principale
-│ │ ├── audio_input.py # Vosk STT + wake-word
-│ │ ├── llm_engine.py # Ollama LLM
-│ │ ├── tts_engine.py # Text-to-speech
-│ │ ├── command_parser.py # Intent → tool routing
-│ │ ├── tool_base.py # Classe base Tool
-│ │ ├── tool_registry.py # Registry + ToolExecutor
-│ │ ├── tools.py # Implementazioni tool
-│ │ └── [moduli orfani] # Feature future (skeleton)
-│ └── utils/
-│ ├── config.py # Config manager
-│ └── logger.py # Logging setup
-├── config/
-│ ├── settings.json # Impostazioni utente
-│ └── default_settings.json # Template default
-├── assets/
-│ └── ayko_dashboard.html
-├── docs/
-│ ├── architecture/ARCHITECTURE.md
-│ ├── guides/COMMANDS.md
-│ ├── api/
-│   ├── core_api.md
-│   └── tools_api.md
-├── tests/
+├── .gitattributes
+├── .gitignore
+├── README.md
+├── check_environment.py
+├── code-quality.yml
+├── docker-compose.yml
 ├── requirements.txt
-└── .env.example
+├── setup.py
+├── setup_advanced.sh
+├── assets/
+│   └── ayko_dashboard.html          # Dashboard HTML con bridge Qt
+├── config/
+│   ├── default_settings.json
+│   └── settings.json
+├── docs/
+│   ├── api/
+│   │   ├── core_api.md
+│   │   └── tools_api.md
+│   ├── architecture/
+│   │   └── ARCHITECTURE.md
+│   └── guides/
+│       └── COMMANDS.md
+├── src/
+│   ├── __init__.py
+│   ├── main.py                       # Avvio dell'applicazione
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── advanced_features.py
+│   │   ├── advanced_hotkey.py
+│   │   ├── audio_input.py            # Vosk STT e wake-word
+│   │   ├── clipboard_manager.py
+│   │   ├── command_memory.py
+│   │   ├── command_parser.py
+│   │   ├── command_suggester.py
+│   │   ├── core.py                   # Orchestratore AYKOCore
+│   │   ├── custom_commands.py
+│   │   ├── history_search.py
+│   │   ├── learning_schedule.py
+│   │   ├── llm_engine.py             # Integrazione Ollama
+│   │   ├── mood_analyzer.py
+│   │   ├── multi_monitor.py
+│   │   ├── news_briefing.py
+│   │   ├── personality.py
+│   │   ├── process_monitor.py
+│   │   ├── screen_analyzer.py
+│   │   ├── screen_capture.py
+│   │   ├── smart_launcher.py
+│   │   ├── time_awareness.py
+│   │   ├── tool_base.py
+│   │   ├── tool_registry.py
+│   │   ├── tools.py
+│   │   ├── tts_engine.py
+│   │   ├── tutorial_mode.py
+│   │   └── voice_emotion.py
+│   ├── ui/
+│   │   ├── __init__.py
+│   │   ├── audio_visualizer.py
+│   │   ├── ayko_app.py               # Finestra Qt e bridge QWebChannel
+│   │   ├── cinematic_ui.py
+│   │   ├── footer_bar.py
+│   │   ├── header_bar.py
+│   │   ├── hotkey_manager.py
+│   │   ├── hud_controller.py
+│   │   ├── left_panel.py
+│   │   ├── main_window.py
+│   │   ├── modern_ui.py
+│   │   ├── professional_dashboard.py
+│   │   ├── right_panel.py
+│   │   ├── settings_panel.py
+│   │   ├── sphere_manager.py
+│   │   └── suggestions_panel.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── config.py
+│       ├── logger.py
+│       └── system_control.py
+└── tests/
+    ├── __init__.py
+    ├── conftest.py
+    ├── test_audio.py
+    ├── validate_architecture.py
+    ├── integration/
+    │   ├── __init__.py
+    │   └── test_full_flow.py
+    └── unit/
+        ├── __init__.py
+        └── test_command_memory.py
 ```
 
 ---
