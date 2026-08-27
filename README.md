@@ -96,22 +96,7 @@ ayko/
 │   │   ├── tutorial_mode.py
 │   │   └── voice_emotion.py
 │   ├── ui/
-│   │   ├── __init__.py
-│   │   ├── audio_visualizer.py
-│   │   ├── ayko_app.py               # Finestra Qt e bridge QWebChannel
-│   │   ├── cinematic_ui.py
-│   │   ├── footer_bar.py
-│   │   ├── header_bar.py
-│   │   ├── hotkey_manager.py
-│   │   ├── hud_controller.py
-│   │   ├── left_panel.py
-│   │   ├── main_window.py
-│   │   ├── modern_ui.py
-│   │   ├── professional_dashboard.py
-│   │   ├── right_panel.py
-│   │   ├── settings_panel.py
-│   │   ├── sphere_manager.py
-│   │   └── suggestions_panel.py
+│   │   └── ayko_app.py               # Finestra Qt e bridge QWebChannel
 │   └── utils/
 │       ├── __init__.py
 │       ├── config.py
