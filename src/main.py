@@ -67,10 +67,7 @@ def main():
     config = Config()
     core = build_core(config)
 
-    # NOTA: AYKOApp non esiste ancora (in attesa della tua UI HTML).
-    # Quando arriva, andrà costruita passandole `core` per collegare
-    # segnali/comandi (core.command_completed, core.speaking, ecc.)
-    window = AYKOApp()
+    window = AYKOApp(core)
     window.show()
     sys.exit(app.exec())
 
