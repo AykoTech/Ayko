@@ -156,7 +156,6 @@ ayko/
 | [COMMANDS.md](docs/guides/COMMANDS.md) | Lista comandi disponibili |
 | [core_api.md](docs/api/core_api.md) | API di AYKOCore |
 | [tools_api.md](docs/api/tools_api.md) | API dei tool |
-| [CHANGELOG.md](docs/CHANGELOG.md) | Storia versioni |
 
 ---
 
