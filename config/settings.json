@@ -2,15 +2,16 @@
   "version": "0.0.01",
   "voice": {
     "engine": "pyttsx3",
-    "rate": 1.0,
+    "rate": 1,
     "volume": 0.9,
-    "pitch": 1.0
+    "pitch": 1
   },
   "ai": {
     "model": "tinyllama",
     "host": "http://localhost:11434",
     "max_tokens": 256,
-    "temperature": 0.7
+    "temperature": 0.1,
+    "timeout": 30
   },
   "hotkeys": {
     "activate": "alt+j",
@@ -32,7 +33,7 @@
   },
   "ui": {
     "theme": "dark",
-    "animation_speed": 1.0,
+    "animation_speed": 1,
     "refresh_rate": 60
   }
 }
