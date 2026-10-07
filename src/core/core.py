@@ -145,10 +145,17 @@ class AYKOCore(QObject):
             try:
                 tl.append(f"[{timestamp}] START: {text[:50]}")
 
-                intent, args = "unknown", {}
-                if self.llm and self.llm.is_ready:
-                    intent, args = self.llm.interpret(text)
-                    tl.append(f"Intent: {intent}")
+                if self.llm is None:
+                    raise RuntimeError("Motore AI non disponibile. Controlla la configurazione di Ollama.")
+
+                if not self.llm.is_ready:
+                    raise RuntimeError(
+                        getattr(self.llm, "last_error", "") or
+                        "Ollama non pronto. Avvia Ollama e verifica il modello configurato."
+                    )
+
+                intent, args = self.llm.interpret(text)
+                tl.append(f"Intent: {intent}")
 
                 tool_name = "unknown"
                 if self._parser and intent != "unknown":
