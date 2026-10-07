@@ -1,112 +1,136 @@
-"""LLM Engine - SINGLE responsibility: generate JSON intent + args."""
+"""LLM Engine - local Ollama provider for intent extraction."""
 
-import requests
 import json
 import logging
 from typing import Tuple, Dict, Any
 
+import requests
+
 logger = logging.getLogger("LLM")
 
+
 class LLMEngine:
-    """Generate intent + args from user text. ONLY interpretation."""
-    
-    def __init__(self, model: str = "tinyllama", host: str = "http://localhost:11434"):
+    """Small, defensive Ollama client used by AYKOCore."""
+
+    def __init__(
+        self,
+        model: str = "tinyllama",
+        host: str = "http://localhost:11434",
+        timeout: int = 30,
+        temperature: float = 0.1,
+        max_tokens: int = 256,
+    ):
         self.model = model
-        self.host = host
-        self.url = f"{host}/api/generate"
+        self.host = host.rstrip("/")
+        self.url = f"{self.host}/api/generate"
+        self.timeout = timeout
+        self.temperature = temperature
+        self.max_tokens = max_tokens
         self.is_ready = False
-        self.timeout = 10
-        
+        self.last_error = ""
+        self.available_models = []
         self._check_health()
-    
+
     def _check_health(self):
-        """Verify Ollama is running."""
+        """Check Ollama and verify that the configured model is installed."""
         try:
-            response = requests.get(f"{self.host}/api/tags", timeout=2)
-            if response.status_code == 200:
-                self.is_ready = True
-                logger.info(f"✓ Ollama OK. Model: {self.model}")
-        except Exception as e:
-            logger.error(f"Ollama error: {e}")
-    
+            response = requests.get(f"{self.host}/api/tags", timeout=3)
+            response.raise_for_status()
+            data = response.json()
+            self.available_models = [
+                item.get("name", "") for item in data.get("models", [])
+                if item.get("name")
+            ]
+
+            configured = self.model
+            configured_base = configured.split(":")[0]
+            installed = any(
+                name == configured
+                or name.split(":")[0] == configured_base
+                for name in self.available_models
+            )
+
+            if not installed:
+                self.last_error = (
+                    f"Modello Ollama '{configured}' non installato. "
+                    f"Modelli disponibili: {', '.join(self.available_models) or 'nessuno'}"
+                )
+                logger.error(self.last_error)
+                return
+
+            self.is_ready = True
+            logger.info("Ollama OK. Model: %s", self.model)
+        except requests.RequestException as exc:
+            self.last_error = (
+                f"Ollama non raggiungibile su {self.host}. "
+                "Avvia Ollama e verifica che sia in esecuzione."
+            )
+            logger.error("%s: %s", self.last_error, exc)
+        except (ValueError, KeyError) as exc:
+            self.last_error = f"Risposta Ollama non valida: {exc}"
+            logger.error(self.last_error)
+
     def interpret(self, text: str) -> Tuple[str, Dict[str, Any]]:
-        """Interpret user text → intent + args.
-        
-        Args:
-            text: User input
-        
-        Returns:
-            (intent: str, args: dict)
-        
-        NOTE: Does NOT select tool. Does NOT execute anything.
-        Chiamata di rete bloccante: va sempre invocata da un thread
-        dedicato, mai dal thread audio/UI.
-        """
-        
+        """Interpret user text into a strict intent + args JSON object."""
         if not self.is_ready:
-            logger.error("LLM not ready")
-            return ("unknown", {})
-        
+            raise RuntimeError(self.last_error or "Ollama non pronto")
+
         system_prompt = """You are a JSON generator.
 Extract the user's intent and parameters ONLY.
 
 Return ONLY valid JSON:
-{
-  "intent": "action_name",
-  "args": {"key": "value"}
-}
+{"intent":"action_name","args":{"key":"value"}}
 
 INTENTS: open_app, close_app, system_info, volume_control, web_search, open_url, memory, suggest, context_awareness
 
 Examples:
-"open youtube" → {"intent": "open_app", "args": {"app": "youtube"}}
-"what time is it" → {"intent": "system_info", "args": {"type": "time"}}
-"search python" → {"intent": "web_search", "args": {"query": "python"}}
-"what did i do earlier" → {"intent": "memory", "args": {"query": "recent"}}
-"what can I say" → {"intent": "suggest", "args": {"query": "help"}}
-"what's on my screen" → {"intent": "context_awareness", "args": {"question": "what's on my screen"}}
+"open youtube" -> {"intent":"open_app","args":{"app":"youtube"}}
+"what time is it" -> {"intent":"system_info","args":{"type":"time"}}
+"search python" -> {"intent":"web_search","args":{"query":"python"}}
+"what did i do earlier" -> {"intent":"memory","args":{"query":"recent"}}
+"what can i say" -> {"intent":"suggest","args":{"query":"help"}}
+"what's on my screen" -> {"intent":"context_awareness","args":{"question":"what's on my screen"}}
 
-NO explanations. JSON ONLY.
+If no supported intent matches, return {"intent":"unknown","args":{}}.
 """
-        
+
         try:
             response = requests.post(
                 self.url,
                 json={
                     "model": self.model,
-                    "prompt": f"{system_prompt}\n\nUser: {text}",
+                    "system": system_prompt,
+                    "prompt": text,
                     "stream": False,
-                    "options": {"temperature": 0.1},
+                    "format": "json",
+                    "options": {
+                        "temperature": self.temperature,
+                        "num_predict": self.max_tokens,
+                    },
                 },
-                timeout=self.timeout
+                timeout=self.timeout,
             )
-            
-            if response.status_code != 200:
-                logger.error(f"LLM error: {response.status_code}")
-                return ("unknown", {})
-            
-            result_text = response.json().get("response", "")
-            
-            # Extract JSON
-            start = result_text.find("{")
-            end = result_text.rfind("}") + 1
-            
-            if start == -1 or end == 0:
-                logger.warning(f"No JSON found in: {result_text[:50]}")
-                return ("unknown", {})
-            
-            json_str = result_text[start:end]
-            parsed = json.loads(json_str)
-            
+            response.raise_for_status()
+            result_text = response.json().get("response", "").strip()
+            if not result_text:
+                raise RuntimeError("Ollama ha restituito una risposta vuota")
+
+            parsed = json.loads(result_text)
             intent = parsed.get("intent", "unknown")
             args = parsed.get("args", {})
-            
-            logger.info(f"Interpreted: {intent} {args}")
-            return (intent, args)
-        
-        except json.JSONDecodeError as e:
-            logger.error(f"JSON parse error: {e}")
-            return ("unknown", {})
-        except Exception as e:
-            logger.error(f"Interpretation error: {e}")
-            return ("unknown", {})
+
+            if not isinstance(intent, str) or not isinstance(args, dict):
+                raise ValueError("JSON Ollama non conforme allo schema intent/args")
+
+            logger.info("Interpreted: %s %s", intent, args)
+            self.last_error = ""
+            return intent, args
+
+        except requests.RequestException as exc:
+            self.last_error = f"Errore Ollama durante la generazione: {exc}"
+            logger.error(self.last_error)
+            raise RuntimeError(self.last_error) from exc
+        except (json.JSONDecodeError, ValueError) as exc:
+            self.last_error = f"Risposta JSON Ollama non valida: {exc}"
+            logger.error(self.last_error)
+            raise RuntimeError(self.last_error) from exc
