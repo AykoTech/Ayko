@@ -775,12 +775,12 @@ const ic=(name,cls='')=>`<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" 
 
 /* ============ Static data ============ */
 const NAV=[
- {icon:'home',label:'Dashboard',key:'dashboard',active:true},
- {icon:'chat',label:'Chat',key:'chat'},
+ {icon:'home',label:'Dashboard',key:'dashboard'},
+ {icon:'chat',label:'Chat',key:'chat',active:true},
  {icon:'bot',label:'Agenti',key:'agenti'},
  {icon:'folder',label:'Archivio',key:'archivio'}
 ];
-let activeSection='dashboard';
+let activeSection='chat';
 const STATS=[
  {key:'cpu',label:'CPU',icon:'cpu',display:'—',bar:false},
  {key:'ram',label:'RAM',icon:'ram',display:'—',pct:0,bar:true},
@@ -1102,7 +1102,7 @@ async function sendCommand(){
   clearAttachments();
   if(!val) return;
 
-  if(typeof aykoBridgeReady!=='undefined'){
+  if(!aykoBridge){
     try{ await aykoBridgeReady; }catch(err){ console.warn('AYKO bridge non disponibile:',err); }
   }
 
@@ -1980,6 +1980,7 @@ function connectAykoBridge(){
         catch(err){ console.warn('Payload speaking non valido:',err); }
       });
       aykoBridgeResolve(aykoBridge);
+      addActivity('Backend AYKO collegato');
     });
   }catch(err){ aykoBridgeReject(err); console.error('AYKO bridge initialization failed:',err); }
 }
