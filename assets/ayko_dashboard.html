@@ -119,6 +119,12 @@ button{background:none;border:none;cursor:pointer}
 .sphere-label{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(24px,4.4vw,42px);letter-spacing:.42em;color:var(--ice);
   text-shadow:0 0 18px rgba(var(--cyan-rgb),.55),0 0 40px rgba(var(--cyan-rgb),.25);pointer-events:none}
 .chat-stack{position:fixed;left:50%;bottom:18px;z-index:4;transform:translateX(-50%);width:min(680px,calc(100vw - 40px));display:flex;flex-direction:column;align-items:center;gap:12px}
+.chat-log{width:100%;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px;scroll-behavior:smooth}
+.chat-message{max-width:86%;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(8,14,30,.82);font-size:12.5px;line-height:1.45;word-break:break-word}
+.chat-message.user{align-self:flex-end;border-color:var(--line-strong);background:rgba(var(--cyan-rgb),.09)}
+.chat-message.assistant{align-self:flex-start;color:var(--ice)}
+.chat-message.system{align-self:center;color:var(--mist);font-size:11px;background:rgba(255,255,255,.025)}
+
 .chat-ui{width:100%;display:flex;flex-direction:column;align-items:center;gap:12px}
 .app:not(.section-chat) .chat-ui{display:none}
 .archive-ui{display:none;flex-direction:column;gap:16px;width:100%;max-width:900px;flex:1;min-height:0;overflow-y:auto;padding:10px 16px 24px;align-self:center}
@@ -440,6 +446,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
           <div class="waveform" aria-hidden="true"><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span></div>
         </div>
         <div class="status-sub">Come posso aiutarti?</div>
+        <div class="chat-log" id="chatLog" aria-live="polite" aria-label="Conversazione"></div>
         <div class="attach-zone" id="attachZone" hidden>
           <div class="attach-head">
             <span id="attachSummary"></span>
@@ -880,6 +887,16 @@ addEventListener('offline',updateNetworkStat);
 if(networkInfo) networkInfo.addEventListener('change',updateNetworkStat);
 
 const activityList=document.getElementById('activityList');
+const chatLog=document.getElementById('chatLog');
+function appendChatMessage(text, role='assistant'){
+  if(!chatLog || !text) return;
+  const el=document.createElement('div');
+  el.className='chat-message '+role;
+  el.textContent=String(text);
+  chatLog.appendChild(el);
+  while(chatLog.children.length>40) chatLog.removeChild(chatLog.firstChild);
+  chatLog.scrollTop=chatLog.scrollHeight;
+}
 function renderActivity(){
   if(!activityList) return;
   activityList.innerHTML=activities.map(a=>`<div class="activity-item${a.dot?'':' muted'}"><span class="dot"></span><span class="txt">${a.text}</span><span class="time">${a.time}</span></div>`).join('');
@@ -1092,6 +1109,7 @@ async function sendCommand(){
   const topic=TOPICS.find(t=>t.key===activeTopic);
   const fileLbl=attachedFiles.length?' · '+attachedFiles.length+' file':'';
   addActivity((topic?'['+topic.label+'] ':'')+(val?'Comando inviato: "'+val+'"':'File inviati')+fileLbl);
+  if(val) appendChatMessage(val,'user');
 
   // L'archivio non deve bloccare l'invio al backend.
   if(attachedFiles.length){
@@ -1963,17 +1981,20 @@ function connectAykoBridge(){
       aykoBridge.commandReceived.connect(function(payloadJson){
         const data=JSON.parse(payloadJson);
         addActivity('Riconosciuto: "'+data.text+'"');
+        appendChatMessage('Comando ricevuto dal backend.','system');
       });
       aykoBridge.commandProcessing.connect(function(){ busy=true; refreshStatus(); });
       aykoBridge.commandCompleted.connect(function(payloadJson){
         const result=JSON.parse(payloadJson);
         busy=false; refreshStatus();
         addActivity((result.success?'✓ ':'✗ ')+result.result);
+        appendChatMessage(result.result || (result.success?'Fatto.':'Errore'),'assistant');
       });
       aykoBridge.errorOccurred.connect(function(payloadJson){
         const data=JSON.parse(payloadJson);
         busy=false; refreshStatus();
         addActivity('✗ Errore: '+data.message);
+        appendChatMessage(data.message || 'Errore backend','assistant');
       });
       aykoBridge.speaking.connect(function(payloadJson){
         try{ const data=JSON.parse(payloadJson); if(data.text) addActivity('AYKO: '+data.text); }
@@ -1981,6 +2002,7 @@ function connectAykoBridge(){
       });
       aykoBridgeResolve(aykoBridge);
       addActivity('Backend AYKO collegato');
+      appendChatMessage('Backend AYKO collegato.','system');
     });
   }catch(err){ aykoBridgeReject(err); console.error('AYKO bridge initialization failed:',err); }
 }
