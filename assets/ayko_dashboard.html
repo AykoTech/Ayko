@@ -1090,22 +1090,34 @@ async function sendCommand(){
   const val=cmdInput.value.trim();
   if((!val&&!attachedFiles.length)||busy) return;
   const topic=TOPICS.find(t=>t.key===activeTopic);
-  const payload={
-    message:val||null,
-    topic:activeTopic,
-    systemPrompt:topic?topic.prompt:null,
-    attachments:attachedFiles.map(f=>({name:f.file.name,size:f.file.size,type:f.file.type}))
-  };
-  const fileLbl=attachedFiles.length?` · ${attachedFiles.length} file`:'';
-  addActivity((topic?`[${topic.label}] `:'')+(val?`Comando eseguito: "${val}"`:'File inviati')+fileLbl);
-  await archiveAttachedFiles(attachedFiles,val);
+  const fileLbl=attachedFiles.length?' · '+attachedFiles.length+' file':'';
+  addActivity((topic?'['+topic.label+'] ':'')+(val?'Comando inviato: "'+val+'"':'File inviati')+fileLbl);
+
+  // L'archivio non deve bloccare l'invio al backend.
+  if(attachedFiles.length){
+    archiveAttachedFiles(attachedFiles,val).catch(err=>console.warn('Archivio allegati non disponibile:',err));
+  }
+
   cmdInput.value='';
   clearAttachments();
-  if(aykoBridge && val){
-    aykoBridge.processTextCommand(val);
+  if(!val) return;
+
+  if(typeof aykoBridgeReady!=='undefined'){
+    try{ await aykoBridgeReady; }catch(err){ console.warn('AYKO bridge non disponibile:',err); }
+  }
+
+  if(aykoBridge){
+    busy=true; refreshStatus();
+    try{
+      aykoBridge.processTextCommand(val);
+    }catch(err){
+      busy=false; refreshStatus();
+      addActivity('✗ Impossibile inviare il comando al backend: '+err);
+      console.error(err);
+    }
   }else{
-    busy=true;refreshStatus();
-    setTimeout(()=>{busy=false;refreshStatus();},1100);
+    busy=false; refreshStatus();
+    addActivity('✗ Backend AYKO non collegato.');
   }
 }
 function sendPreset(text){cmdInput.value=text;sendCommand();}
@@ -1927,34 +1939,43 @@ async function archiveAttachedFiles(entries,messageText){
 })();
 
 // --- AYKO bridge: collega la dashboard al backend Python ---
-var aykoBridge = null;
+let aykoBridge = null;
+let aykoBridgeResolve, aykoBridgeReject;
+const aykoBridgeReady = new Promise((resolve,reject)=>{ aykoBridgeResolve=resolve; aykoBridgeReject=reject; });
 
-if (typeof QWebChannel !== 'undefined' && typeof qt !== 'undefined') {
-  new QWebChannel(qt.webChannelTransport, function(channel) {
-    aykoBridge = channel.objects.aykoBridge;
-
-    aykoBridge.commandReceived.connect(function(payloadJson) {
-      const data = JSON.parse(payloadJson);
-      addActivity('Riconosciuto: "' + data.text + '"');
+function connectAykoBridge(){
+  if(typeof QWebChannel==='undefined' || typeof qt==='undefined'){
+    aykoBridgeReject(new Error('QWebChannel non disponibile'));
+    return;
+  }
+  try{
+    new QWebChannel(qt.webChannelTransport,function(channel){
+      aykoBridge=channel.objects.aykoBridge;
+      if(!aykoBridge){ aykoBridgeReject(new Error('aykoBridge non registrato dal backend')); return; }
+      aykoBridge.commandReceived.connect(function(payloadJson){
+        const data=JSON.parse(payloadJson);
+        addActivity('Riconosciuto: "'+data.text+'"');
+      });
+      aykoBridge.commandProcessing.connect(function(){ busy=true; refreshStatus(); });
+      aykoBridge.commandCompleted.connect(function(payloadJson){
+        const result=JSON.parse(payloadJson);
+        busy=false; refreshStatus();
+        addActivity((result.success?'✓ ':'✗ ')+result.result);
+      });
+      aykoBridge.errorOccurred.connect(function(payloadJson){
+        const data=JSON.parse(payloadJson);
+        busy=false; refreshStatus();
+        addActivity('✗ Errore: '+data.message);
+      });
+      aykoBridge.speaking.connect(function(payloadJson){
+        try{ const data=JSON.parse(payloadJson); if(data.text) addActivity('AYKO: '+data.text); }
+        catch(err){ console.warn('Payload speaking non valido:',err); }
+      });
+      aykoBridgeResolve(aykoBridge);
     });
-
-    aykoBridge.commandProcessing.connect(function() {
-      busy = true; refreshStatus();
-    });
-
-    aykoBridge.commandCompleted.connect(function(payloadJson) {
-      const result = JSON.parse(payloadJson);
-      busy = false; refreshStatus();
-      addActivity((result.success ? '✓ ' : '✗ ') + result.result);
-    });
-
-    aykoBridge.errorOccurred.connect(function(payloadJson) {
-      const data = JSON.parse(payloadJson);
-      busy = false; refreshStatus();
-      addActivity('✗ Errore: ' + data.message);
-    });
-  });
+  }catch(err){ aykoBridgeReject(err); console.error('AYKO bridge initialization failed:',err); }
 }
+connectAykoBridge();
 </script>
 </body>
 </html>
