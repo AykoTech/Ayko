@@ -34,6 +34,9 @@ def build_core(config: Config) -> AYKOCore:
         llm = LLMEngine(
             model=config.get_nested("ai", "model", default="tinyllama"),
             host=config.get_nested("ai", "host", default="http://localhost:11434"),
+            timeout=int(config.get_nested("ai", "timeout", default=30)),
+            temperature=float(config.get_nested("ai", "temperature", default=0.1)),
+            max_tokens=int(config.get_nested("ai", "max_tokens", default=256)),
         )
     except Exception as e:
         logger.warning(f"LLM unavailable: {e}")
