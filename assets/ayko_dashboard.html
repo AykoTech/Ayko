@@ -1939,9 +1939,17 @@ async function archiveAttachedFiles(entries,messageText){
 })();
 
 // --- AYKO bridge: collega la dashboard al backend Python ---
-let aykoBridge = null;
-let aykoBridgeResolve, aykoBridgeReject;
-const aykoBridgeReady = new Promise((resolve,reject)=>{ aykoBridgeResolve=resolve; aykoBridgeReject=reject; });
+var aykoBridge = null;
+var aykoBridgeResolve = null, aykoBridgeReject = null;
+var aykoBridgeReady = Promise.resolve(null);
+
+function initAykoBridgeReady(){
+  aykoBridgeReady = new Promise((resolve,reject)=>{
+    aykoBridgeResolve=resolve;
+    aykoBridgeReject=reject;
+  });
+}
+initAykoBridgeReady();
 
 function connectAykoBridge(){
   if(typeof QWebChannel==='undefined' || typeof qt==='undefined'){
