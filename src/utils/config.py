@@ -47,7 +47,7 @@ class Config:
             "version": "0.0.01",
             "voice": {"engine": "pyttsx3", "rate": 1.0, "volume": 0.9, "pitch": 1.0},
             "ai": {
-                "model": "tinyllama",
+                "model": "qwen3:1.7b",
                 "host": "http://localhost:11434",
                 "max_tokens": 256,
                 "temperature": 0.7,

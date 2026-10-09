@@ -36,7 +36,7 @@ def check_ollama():
     print("✗ Ollama not found. Install from https://ollama.ai")
     return False
 
-def check_model(model_name="tinyllama"):
+def check_model(model_name="qwen3:1.7b"):
     """Check if LLM model is available."""
     try:
         result = subprocess.run(
@@ -107,7 +107,7 @@ def main():
     # Check models
     print("[4] Models")
     results["vosk_model"] = check_vosk_model()
-    results["ollama_model"] = check_model("tinyllama")
+    results["ollama_model"] = check_model("qwen3:1.7b")
     print()
     
     # Summary
@@ -142,7 +142,7 @@ def main():
         print("✓ LLM model: READY")
     else:
         print("⚠ LLM model: MISSING")
-        print("  → Run: ollama pull tinyllama")
+        print("  → Run: ollama pull qwen3:1.7b")
     
     print()
     
@@ -151,7 +151,7 @@ def main():
         return 0
     elif critical_pass:
         print("⚠ Download models to use AYKO:")
-        print("  1. ollama pull tinyllama")
+        print("  1. ollama pull qwen3:1.7b")
         print("  2. Download Vosk model to 'model/' directory")
         return 0
     else:

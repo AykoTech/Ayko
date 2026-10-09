@@ -14,7 +14,7 @@ class LLMEngine:
 
     def __init__(
         self,
-        model: str = "tinyllama",
+        model: str = "qwen3:1.7b",
         host: str = "http://localhost:11434",
         timeout: int = 30,
         temperature: float = 0.1,

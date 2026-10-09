@@ -32,7 +32,7 @@ def build_core(config: Config) -> AYKOCore:
 
     try:
         llm = LLMEngine(
-            model=config.get_nested("ai", "model", default="tinyllama"),
+            model=config.get_nested("ai", "model", default="qwen3:1.7b"),
             host=config.get_nested("ai", "host", default="http://localhost:11434"),
             timeout=int(config.get_nested("ai", "timeout", default=30)),
             temperature=float(config.get_nested("ai", "temperature", default=0.1)),

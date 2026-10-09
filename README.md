@@ -29,7 +29,7 @@ Audio (Vosk) → LLMEngine → CommandParser → AYKOCore → ToolExecutor → T
 
 
 - **100% locale** — nessun dato inviato al cloud
-- **Ollama** come backend LLM (modello: tinyllama di default)
+- **Ollama** come backend LLM (modello: qwen3:1.7b di default)
 - **Vosk** per il riconoscimento vocale offline
 - **pyttsx3** per il text-to-speech nativo OS
 
