@@ -24,6 +24,11 @@ class FakeParser:
         return "test_tool", args
 
 
+class UnknownParser:
+    def parse(self, intent, args):
+        return "unknown", args
+
+
 class FakeExecutor:
     @staticmethod
     def execute(tool_name, args, context):
@@ -35,7 +40,18 @@ class FakeExecutor:
         }
 
 
-def test_full_command_execution(mock_core, monkeypatch):
+class InvalidExecutor:
+    @staticmethod
+    def execute(tool_name, args, context):
+        return {
+            "success": "yes",
+            "result": "This must not be accepted as success",
+            "state_updates": None,
+            "log": "invalid success type",
+        }
+
+
+def test_full_command_execution(mock_core):
     """A supported command succeeds only when a tool reports success."""
     mock_core.llm = FakeLLM()
     mock_core._parser = FakeParser()
@@ -57,6 +73,53 @@ def test_unknown_intent_is_not_reported_as_success(mock_core):
 
     assert result["success"] is False
     assert result["tool"] == "unknown"
+
+
+def test_unknown_parser_tool_is_not_reported_as_success(mock_core):
+    """An intent without a registered tool must fail."""
+    mock_core.llm = FakeLLM()
+    mock_core._parser = UnknownParser()
+    mock_core._executor = FakeExecutor
+
+    result = mock_core.execute_command("unsupported command")
+
+    assert result["success"] is False
+    assert result["tool"] == "unknown"
+
+
+def test_invalid_executor_response_is_not_reported_as_success(mock_core):
+    """The executor must return a dictionary with a boolean success field."""
+    mock_core.llm = FakeLLM()
+    mock_core._parser = FakeParser()
+    mock_core._executor = InvalidExecutor
+
+    result = mock_core.execute_command("test command")
+
+    assert result["success"] is False
+    assert result["result"] == "Risposta non valida dall'esecutore"
+
+
+def test_missing_parser_reports_failure(mock_core):
+    """A missing command parser must produce an explicit failure."""
+    mock_core.llm = FakeLLM()
+    mock_core._parser = None
+
+    result = mock_core.execute_command("test command")
+
+    assert result["success"] is False
+    assert result["result"] == "Parser dei comandi non disponibile"
+
+
+def test_missing_executor_reports_failure(mock_core):
+    """A missing tool executor must produce an explicit failure."""
+    mock_core.llm = FakeLLM()
+    mock_core._parser = FakeParser()
+    mock_core._executor = None
+
+    result = mock_core.execute_command("test command")
+
+    assert result["success"] is False
+    assert result["result"] == "Esecutore degli strumenti non disponibile"
 
 
 def test_missing_llm_reports_failure(mock_core):
