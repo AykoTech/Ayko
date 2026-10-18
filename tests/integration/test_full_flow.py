@@ -138,3 +138,49 @@ def test_command_memory_integration(mock_command_memory):
 
     assert len(recent) > 0
     assert "open" in recent[0]["text"].lower()
+
+
+class FailedExecutorWithStateUpdates:
+    @staticmethod
+    def execute(tool_name, args, context):
+        return {
+            "success": False,
+            "result": "Mock failure",
+            "state_updates": {"unexpected": True},
+            "log": "mock failure",
+        }
+
+
+class SuccessfulExecutorWithStateUpdates:
+    @staticmethod
+    def execute(tool_name, args, context):
+        return {
+            "success": True,
+            "result": "Mock success",
+            "state_updates": {"expected": True},
+            "log": "mock success",
+        }
+
+
+def test_failed_tool_does_not_update_context(mock_core):
+    """A failed tool must not mutate the core context."""
+    mock_core.llm = FakeLLM()
+    mock_core._parser = FakeParser()
+    mock_core._executor = FailedExecutorWithStateUpdates
+
+    result = mock_core.execute_command("test command")
+
+    assert result["success"] is False
+    assert "unexpected" not in mock_core.context
+
+
+def test_successful_tool_updates_context(mock_core):
+    """A successful tool may apply its state updates."""
+    mock_core.llm = FakeLLM()
+    mock_core._parser = FakeParser()
+    mock_core._executor = SuccessfulExecutorWithStateUpdates
+
+    result = mock_core.execute_command("test command")
+
+    assert result["success"] is True
+    assert mock_core.context["expected"] is True
