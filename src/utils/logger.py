@@ -1,3 +1,4 @@
+# Percorso: src/utils/logger.py
 #!/usr/bin/env python3
 """Logging Configuration."""
 
@@ -5,6 +6,26 @@ import logging
 import sys
 from pathlib import Path
 from typing import Optional
+
+
+class ConsoleStreamHandler(logging.StreamHandler):
+    """Write log messages safely when the Windows console uses CP1252."""
+
+    def emit(self, record):
+        try:
+            message = self.format(record)
+            stream = self.stream
+            try:
+                stream.write(message + self.terminator)
+            except UnicodeEncodeError:
+                encoding = getattr(stream, "encoding", None) or "utf-8"
+                safe_message = (message + self.terminator).encode(
+                    encoding, errors="backslashreplace"
+                ).decode(encoding)
+                stream.write(safe_message)
+            self.flush()
+        except Exception:
+            self.handleError(record)
 
 class AYKOLogger:
     """AYKO logging system."""
@@ -34,12 +55,12 @@ class AYKOLogger:
         
         # File handler
         file_handler = logging.FileHandler(
-            self.log_dir / "ayko.log"
+            self.log_dir / "ayko.log", encoding="utf-8"
         )
         file_handler.setLevel(logging.DEBUG)
         
         # Console handler
-        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler = ConsoleStreamHandler(sys.stdout)
         console_handler.setLevel(logging.INFO)
         
         # Formatter

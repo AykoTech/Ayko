@@ -1,3 +1,4 @@
+# Percorso: src/core/audio_input.py
 #!/usr/bin/env python3
 """
 AYKO v0.0.01 - Desktop AI Coworker
@@ -22,6 +23,7 @@ from vosk import Model, KaldiRecognizer
 from PyQt6.QtCore import QObject, pyqtSignal
 from pathlib import Path
 import logging
+from typing import Optional
 
 logger = logging.getLogger("AudioInput")
 
@@ -32,7 +34,7 @@ class AudioInputManager(QObject):
     listening_started = pyqtSignal()
     listening_stopped = pyqtSignal()
     
-    def __init__(self, wake_word="AYKO", sensitivity=0.5):
+    def __init__(self, wake_word="AYKO", sensitivity=0.5, model_path: Optional[Path] = None):
         super().__init__()
         self.wake_word = wake_word.lower()
         self.sensitivity = max(0.1, min(1.0, sensitivity))
@@ -43,17 +45,38 @@ class AudioInputManager(QObject):
         self._thread = None
         
         try:
-            model_path = Path("model")
-            if not model_path.exists():
+            model_root = Path(model_path) if model_path is not None else self._default_model_root()
+            resolved_model_path = self._resolve_model_path(model_root)
+            if resolved_model_path is None:
                 logger.error("Vosk model not found. Download from https://alphacephei.com/vosk/models")
                 return
             
-            self.model = Model(str(model_path))
+            self.model = Model(str(resolved_model_path))
             self.recognizer = KaldiRecognizer(self.model, 16000)
             self.model_loaded = True
             logger.info(f"✓ Vosk loaded. Wake-word: '{self.wake_word}'")
         except Exception as e:
             logger.error(f"Vosk init failed: {e}")
+
+    @staticmethod
+    def _default_model_root() -> Path:
+        """Return the repository model directory independently of the current folder."""
+        return Path(__file__).resolve().parents[2] / "model"
+
+    @staticmethod
+    def _resolve_model_path(model_root: Path) -> Optional[Path]:
+        """Accept either a Vosk model directory or a directory containing one model."""
+        required_directories = ("am", "conf")
+        if all((model_root / name).is_dir() for name in required_directories):
+            return model_root
+        if not model_root.is_dir():
+            return None
+        for candidate in model_root.iterdir():
+            if candidate.is_dir() and all(
+                (candidate / name).is_dir() for name in required_directories
+            ):
+                return candidate
+        return None
     
     def start(self):
         """Start listening for wake-word."""

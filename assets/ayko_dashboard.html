@@ -1,4 +1,5 @@
 <!-- Percorso: C:\Users\edoar\Downloads\ayko-dashboard.html -->
+<!-- Percorso: assets/ayko_dashboard.html -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -1151,6 +1152,10 @@ applyBrightness(111);
 /* ============ Three.js scene ============ */
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canvas=document.getElementById('bg-canvas');
+if(typeof THREE==='undefined'){
+  canvas.hidden=true;
+  console.warn('Three.js non disponibile: animazione 3D disattivata.');
+}else{
 const scene=new THREE.Scene();
 scene.fog=new THREE.FogExp2(0x030712,0.05);
 const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,100);
@@ -1234,6 +1239,7 @@ function animate(){
   renderer.render(scene,camera);
 }
 animate();
+}
 
 /* ---- live weather (Open-Meteo, no key needed) ---- */
 const WICONS={
