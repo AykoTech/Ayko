@@ -1,3 +1,4 @@
+# Percorso: tests/integration/test_full_flow.py
 #!/usr/bin/env python3
 """Integration tests for full AYKO flow."""
 
@@ -184,3 +185,29 @@ def test_successful_tool_updates_context(mock_core):
 
     assert result["success"] is True
     assert mock_core.context["expected"] is True
+
+
+class FailedExecutorThatMutatesContext:
+    @staticmethod
+    def execute(tool_name, args, state):
+        state["context"]["nested"]["items"].append("unexpected")
+        state["context"]["unexpected"] = True
+        return {
+            "success": False,
+            "result": "Mock failure",
+            "state_updates": None,
+            "log": "mutated context before failure",
+        }
+
+
+def test_failed_tool_cannot_mutate_live_context(mock_core):
+    """A failing tool cannot mutate even nested values in the core context."""
+    mock_core.context = {"nested": {"items": ["original"]}}
+    mock_core.llm = FakeLLM()
+    mock_core._parser = FakeParser()
+    mock_core._executor = FailedExecutorThatMutatesContext
+
+    result = mock_core.execute_command("test command")
+
+    assert result["success"] is False
+    assert mock_core.context == {"nested": {"items": ["original"]}}
