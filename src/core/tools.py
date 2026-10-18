@@ -1,5 +1,6 @@
 
 # Percorso: src/core/tools.py
+import ctypes
 import subprocess
 import platform
 import webbrowser
@@ -67,15 +68,32 @@ class CloseAppTool(Tool):
         return (True, "")
     
     def execute(self, args, state):
-        app_name = args.get("app", "").strip()
+        app_name = args.get("app", "").strip().removesuffix(".exe")
         
         try:
             if self.system == "Windows":
-                subprocess.run(["taskkill", "/IM", f"{app_name}.exe", "/F"], capture_output=True)
+                completed = subprocess.run(
+                    ["taskkill", "/IM", f"{app_name}.exe", "/F"],
+                    capture_output=True,
+                    text=True,
+                )
             elif self.system == "Darwin":
-                subprocess.run(["killall", app_name], capture_output=True)
+                completed = subprocess.run(
+                    ["killall", app_name], capture_output=True, text=True
+                )
             else:
-                subprocess.run(["pkill", "-f", app_name], capture_output=True)
+                completed = subprocess.run(
+                    ["pkill", "-f", app_name], capture_output=True, text=True
+                )
+
+            if completed.returncode != 0:
+                error = completed.stderr.strip() or f"Exit code {completed.returncode}"
+                return {
+                    "success": False,
+                    "result": error,
+                    "state_updates": None,
+                    "log": f"Failed to close {app_name}: {error}",
+                }
             
             return {
                 "success": True,
@@ -149,7 +167,7 @@ class VolumeControlTool(Tool):
             level = int(args["level"])
             if not (0 <= level <= 100):
                 return (False, "level must be 0-100")
-        except ValueError:
+        except (TypeError, ValueError):
             return (False, "level must be integer")
         return (True, "")
     
@@ -158,17 +176,23 @@ class VolumeControlTool(Tool):
         
         try:
             if self.system == "Windows":
-                subprocess.run(
-                    ["powershell", "-Command", f"(Get-Volume).SetPowerState(1)"],
-                    capture_output=True
-                )
+                volume_word = round(level * 0xFFFF / 100)
+                volume = volume_word | (volume_word << 16)
+                status = ctypes.windll.winmm.waveOutSetVolume(0, volume)
+                if status != 0:
+                    raise OSError(f"waveOutSetVolume failed with code {status}")
             elif self.system == "Darwin":
                 subprocess.run(
-                    f"osascript -e 'set volume output volume {level}'",
-                    shell=True, capture_output=True
+                    ["osascript", "-e", f"set volume output volume {level}"],
+                    check=True,
+                    capture_output=True,
                 )
             else:
-                subprocess.run(["amixer", "set", "Master", f"{level}%"], capture_output=True)
+                subprocess.run(
+                    ["amixer", "set", "Master", f"{level}%"],
+                    check=True,
+                    capture_output=True,
+                )
             
             return {
                 "success": True,
