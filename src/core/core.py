@@ -6,7 +6,6 @@ diretto), lo interpreta via LLM, lo instrada al tool corretto, e
 restituisce/pronuncia il risultato. Espone segnali Qt cosi' che
 qualunque UI (widget PyQt oppure bridge JS in QWebEngineView) possa
 collegarsi senza che Core sappia nulla della UI stessa.
-
 Le dipendenze pesanti (LLM, TTS, Audio) sono iniettate dall'esterno,
 mai costruite qui dentro: chi assembla l'applicazione (es. main.py)
 decide come costruirle. Questo mantiene Core testabile con
@@ -158,15 +157,51 @@ class AYKOCore(QObject):
                 tl.append(f"Intent: {intent}")
 
                 tool_name = "unknown"
-                if self._parser and intent != "unknown":
+                if intent == "unknown":
+                    result = {
+                        "success": False,
+                        "result": "Comando non riconosciuto o non supportato",
+                        "state_updates": None,
+                        "log": "Unknown intent",
+                    }
+                elif self._parser is None:
+                    result = {
+                        "success": False,
+                        "result": "Parser dei comandi non disponibile",
+                        "state_updates": None,
+                        "log": "Command parser unavailable",
+                    }
+                else:
                     tool_name, args = self._parser.parse(intent, args)
                     tl.append(f"Tool: {tool_name}")
 
-                result = {"success": True, "result": f"Executed: {text}", "state_updates": None, "log": ""}
-                if self._executor and tool_name != "unknown":
-                    result = self._executor.execute(tool_name, args, {"context": self.context})
-                    if result.get("state_updates"):
-                        self.context.update(result["state_updates"])
+                    if tool_name == "unknown":
+                        result = {
+                            "success": False,
+                            "result": f"Intento non supportato: {intent}",
+                            "state_updates": None,
+                            "log": f"Unsupported intent: {intent}",
+                        }
+                    elif self._executor is None:
+                        result = {
+                            "success": False,
+                            "result": "Esecutore degli strumenti non disponibile",
+                            "state_updates": None,
+                            "log": "Tool executor unavailable",
+                        }
+                    else:
+                        result = self._executor.execute(
+                            tool_name, args, {"context": self.context}
+                        )
+                        if not isinstance(result, dict) or not isinstance(result.get("success"), bool):
+                            result = {
+                                "success": False,
+                                "result": "Risposta non valida dall'esecutore",
+                                "state_updates": None,
+                                "log": "Invalid tool executor result",
+                            }
+                        elif result.get("success") is True and isinstance(result.get("state_updates"), dict):
+                            self.context.update(result["state_updates"])
 
                 self.state = "idle" if result.get("success") else "error"
                 tl.append(f"[{timestamp}] END: {'SUCCESS' if result['success'] else 'FAIL'}")
