@@ -1,4 +1,5 @@
 
+# Percorso: src/core/tools.py
 import subprocess
 import platform
 import webbrowser
@@ -32,7 +33,7 @@ class OpenAppTool(Tool):
         
         try:
             if self.system == "Windows":
-                subprocess.Popen(f"start {app_name}", shell=True)
+                os.startfile(app_name)
             elif self.system == "Darwin":
                 subprocess.Popen(["open", "-a", app_name])
             else:
