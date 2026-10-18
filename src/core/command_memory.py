@@ -1,3 +1,4 @@
+# Percorso: src/core/command_memory.py
 #!/usr/bin/env python3
 """Command Memory - Ultimate version with ALL bugs fixed."""
 
@@ -68,7 +69,7 @@ class CommandMemory:
             self.history.append(entry)
             new_size = len(self.history)
             
-            if new_size < old_size:
+            if old_size == self.history.maxlen and new_size == old_size:
                 self._discarded_items_count += 1
             
             self._invalidate_cache()
@@ -126,7 +127,7 @@ class CommandMemory:
         
         with self._lock:
             intents = [cmd["intent"] for cmd in self.history]
-            self._frequency_cache = dict(Counter(intents))
+            self._frequency_cache = dict(Counter(intents).most_common())
             self._cache_valid = True
         
         return dict(self._frequency_cache)
@@ -241,7 +242,7 @@ class CommandMemory:
             
             with self._lock:
                 self.history.clear()
-                for entry in data[-self.MAX_HISTORY_SIZE:]:
+                for entry in data[-self.history.maxlen:]:
                     if isinstance(entry, dict):
                         self.history.append(entry)
             

@@ -41,3 +41,17 @@ def test_empty_history(mock_command_memory):
     """Test empty history."""
     assert mock_command_memory.get_success_rate() == 0.0
     assert len(mock_command_memory.get_recent()) == 0
+
+
+def test_history_tracks_discarded_entries_and_uses_its_configured_limit(tmp_path):
+    """A bounded history records evictions and keeps only its configured size on reload."""
+    path = tmp_path / "history.json"
+    memory = CommandMemory(max_size=2, config_path=path)
+    memory.add_command("first", "first", True)
+    memory.add_command("second", "second", True)
+    memory.add_command("third", "third", True)
+
+    assert memory.get_stats()["discarded"] == 1
+
+    reloaded = CommandMemory(max_size=2, config_path=path)
+    assert [entry["text"] for entry in reloaded.get_recent()] == ["second", "third"]

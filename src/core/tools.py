@@ -303,8 +303,9 @@ class MemoryTool(Tool):
     
     def execute(self, args: dict, state: dict) -> dict:
         """Execute memory query."""
-        
-        if not self.memory:
+
+        memory = state.get("memory") or self.memory
+        if memory is None:
             return {
                 "success": False,
                 "result": "Memory not initialized",
@@ -316,24 +317,30 @@ class MemoryTool(Tool):
         
         try:
             if query_type == "recent":
-                recent = self.memory.get_recent(10)
+                recent = memory.get_recent(10)
                 result = f"Recent {len(recent)} commands: " + ", ".join([
                     cmd["text"] for cmd in recent[-5:]
                 ])
             
             elif query_type == "stats":
-                stats = self.memory.get_stats()
-                result = f"You've issued {stats['total_commands']} commands. "                         f"Success rate: {stats['success_rate']:.0%}. "                         f"Most used: {stats['top_intent']}"
+                stats = memory.get_stats()
+                intents = stats.get("intents", {})
+                top_intent = next(iter(intents), "none")
+                result = (
+                    f"You've issued {stats.get('total', 0)} commands. "
+                    f"Success rate: {stats.get('success_rate', 0.0):.0%}. "
+                    f"Most used: {top_intent}"
+                )
             
             elif query_type == "frequency":
-                freq = self.memory.get_command_frequency()
+                freq = memory.get_command_frequency()
                 top_3 = list(freq.items())[:3]
                 result = "Most used commands: " + ", ".join([
                     f"{intent} ({count}x)" for intent, count in top_3
                 ])
             
             elif query_type == "clear":
-                self.memory.clear_history()
+                memory.clear_history()
                 result = "Command history cleared"
             
             return {

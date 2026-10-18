@@ -41,6 +41,7 @@ class AYKOCore(QObject):
 
         self.state = "idle"           # stato macro (idle/processing/error)
         self.context: Dict = {}       # dati accumulati dai tool, mai stringificati
+        self.memory = None
         self.timeline = []
 
         self.execution_lock = threading.RLock()
@@ -56,6 +57,11 @@ class AYKOCore(QObject):
         logger.info("AYKOCore initialized")
 
     def _init_components(self):
+        try:
+            from .command_memory import CommandMemory
+            self.memory = CommandMemory()
+        except Exception as e:
+            logger.warning(f"Command memory unavailable: {e}")
         try:
             from .command_parser import CommandParser
             self._parser = CommandParser()
@@ -193,7 +199,9 @@ class AYKOCore(QObject):
                         }
                     else:
                         result = self._executor.execute(
-                            tool_name, args, {"context": deepcopy(self.context)}
+                            tool_name,
+                            args,
+                            {"context": deepcopy(self.context), "memory": self.memory},
                         )
                         if not isinstance(result, dict) or not isinstance(result.get("success"), bool):
                             result = {
@@ -204,6 +212,9 @@ class AYKOCore(QObject):
                             }
                         elif result.get("success") is True and isinstance(result.get("state_updates"), dict):
                             self.context.update(result["state_updates"])
+
+                if self.memory is not None:
+                    self.memory.add_command(text, intent, result["success"])
 
                 self.state = "idle" if result.get("success") else "error"
                 tl.append(f"[{timestamp}] END: {'SUCCESS' if result['success'] else 'FAIL'}")

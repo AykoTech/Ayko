@@ -6,11 +6,13 @@ from unittest.mock import patch
 
 from core.tools import (
     CloseAppTool,
+    MemoryTool,
     OpenAppTool,
     OpenUrlTool,
     VolumeControlTool,
     WebSearchTool,
 )
+from core.command_memory import CommandMemory
 
 
 def test_open_app_windows_uses_shell_execute_without_a_command_shell():
@@ -94,3 +96,18 @@ def test_open_url_allows_only_web_schemes():
         False,
         "url must use http or https",
     )
+
+
+def test_memory_tool_reads_the_memory_provided_by_the_core(tmp_path):
+    """The memory tool reports statistics from the memory instance in its state."""
+    memory = CommandMemory(config_path=tmp_path / "history.json")
+    memory.add_command("open calculator", "open_app", True)
+    memory.add_command("open browser", "open_app", False)
+
+    result = MemoryTool().execute(
+        {"query": "stats"}, {"memory": memory}
+    )
+
+    assert result["success"] is True
+    assert "issued 2 commands" in result["result"]
+    assert "Most used: open_app" in result["result"]
