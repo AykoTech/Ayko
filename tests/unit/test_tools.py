@@ -4,7 +4,13 @@
 from subprocess import CompletedProcess
 from unittest.mock import patch
 
-from core.tools import CloseAppTool, OpenAppTool, VolumeControlTool
+from core.tools import (
+    CloseAppTool,
+    OpenAppTool,
+    OpenUrlTool,
+    VolumeControlTool,
+    WebSearchTool,
+)
 
 
 def test_open_app_windows_uses_shell_execute_without_a_command_shell():
@@ -53,3 +59,38 @@ def test_volume_control_rejects_a_non_numeric_level():
     tool = VolumeControlTool()
 
     assert tool.validate_args({"level": None}) == (False, "level must be integer")
+
+
+def test_text_tools_reject_missing_non_text_or_blank_input():
+    """System and web tools require meaningful text inputs."""
+    assert OpenAppTool().validate_args({"app": "  "}) == (False, "app parameter required")
+    assert CloseAppTool().validate_args({"app": ["calculator"]}) == (
+        False,
+        "app parameter required",
+    )
+    assert WebSearchTool().validate_args({"query": None}) == (
+        False,
+        "query parameter required",
+    )
+
+
+def test_web_search_url_encodes_special_characters():
+    """Search input becomes a query parameter rather than part of the URL syntax."""
+    tool = WebSearchTool()
+
+    with patch("core.tools.webbrowser.open", return_value=True) as open_browser:
+        result = tool.execute({"query": "c++ & python"}, {})
+
+    open_browser.assert_called_once_with("https://google.com/search?q=c%2B%2B+%26+python")
+    assert result["success"] is True
+
+
+def test_open_url_allows_only_web_schemes():
+    """The browser tool only accepts HTTP(S) URLs."""
+    tool = OpenUrlTool()
+
+    assert tool.validate_args({"url": "https://example.com"}) == (True, "")
+    assert tool.validate_args({"url": "file:///sensitive.txt"}) == (
+        False,
+        "url must use http or https",
+    )

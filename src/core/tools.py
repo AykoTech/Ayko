@@ -9,6 +9,7 @@ from pathlib import Path
 from datetime import datetime
 import psutil
 import os
+from urllib.parse import urlencode, urlparse
 
 from .tool_base import Tool
 
@@ -25,7 +26,8 @@ class OpenAppTool(Tool):
         self.system = platform.system()
     
     def validate_args(self, args):
-        if "app" not in args or not args["app"]:
+        app_name = args.get("app") if isinstance(args, dict) else None
+        if not isinstance(app_name, str) or not app_name.strip():
             return (False, "app parameter required")
         return (True, "")
     
@@ -63,7 +65,8 @@ class CloseAppTool(Tool):
         self.system = platform.system()
     
     def validate_args(self, args):
-        if "app" not in args or not args["app"]:
+        app_name = args.get("app") if isinstance(args, dict) else None
+        if not isinstance(app_name, str) or not app_name.strip():
             return (False, "app parameter required")
         return (True, "")
     
@@ -216,13 +219,14 @@ class WebSearchTool(Tool):
         super().__init__("web_search")
     
     def validate_args(self, args):
-        if "query" not in args or not args["query"]:
+        query = args.get("query") if isinstance(args, dict) else None
+        if not isinstance(query, str) or not query.strip():
             return (False, "query parameter required")
         return (True, "")
     
     def execute(self, args, state):
         query = args.get("query", "").strip()
-        url = f"https://google.com/search?q={query.replace(' ', '+')}"
+        url = f"https://google.com/search?{urlencode({'q': query})}"
         
         try:
             webbrowser.open(url)
@@ -248,8 +252,13 @@ class OpenUrlTool(Tool):
         super().__init__("open_url")
     
     def validate_args(self, args):
-        if "url" not in args or not args["url"]:
+        url = args.get("url") if isinstance(args, dict) else None
+        if not isinstance(url, str) or not url.strip():
             return (False, "url parameter required")
+
+        scheme = urlparse(url.strip()).scheme.lower()
+        if scheme and scheme not in {"http", "https"}:
+            return (False, "url must use http or https")
         return (True, "")
     
     def execute(self, args, state):
