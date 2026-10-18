@@ -1,3 +1,4 @@
+# Percorso: src/core/core.py
 #!/usr/bin/env python3
 """AYKO Core - Orchestrator.
 
@@ -13,6 +14,7 @@ AYKOCore() a zero dipendenze, senza toccare microfono/Ollama/TTS.
 """
 
 import logging
+from copy import deepcopy
 import threading
 from typing import Dict, Optional
 from datetime import datetime, timezone
@@ -191,7 +193,7 @@ class AYKOCore(QObject):
                         }
                     else:
                         result = self._executor.execute(
-                            tool_name, args, {"context": self.context}
+                            tool_name, args, {"context": deepcopy(self.context)}
                         )
                         if not isinstance(result, dict) or not isinstance(result.get("success"), bool):
                             result = {
