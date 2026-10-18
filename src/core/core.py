@@ -6,7 +6,6 @@ diretto), lo interpreta via LLM, lo instrada al tool corretto, e
 restituisce/pronuncia il risultato. Espone segnali Qt cosi' che
 qualunque UI (widget PyQt oppure bridge JS in QWebEngineView) possa
 collegarsi senza che Core sappia nulla della UI stessa.
-
 Le dipendenze pesanti (LLM, TTS, Audio) sono iniettate dall'esterno,
 mai costruite qui dentro: chi assembla l'applicazione (es. main.py)
 decide come costruirle. Questo mantiene Core testabile con
@@ -26,10 +25,10 @@ logger = logging.getLogger("AYKOCore")
 class AYKOCore(QObject):
     """Orchestratore: Audio -> LLM -> Parser -> Tool -> TTS."""
 
-    command_received = pyqtSignal(str)     # testo grezzo (microfono o chiamata diretta)
-    command_processing = pyqtSignal(str)   # comando in elaborazione
-    command_completed = pyqtSignal(dict)   # risultato completo di execute_command
-    speaking = pyqtSignal(str)             # testo che sta per essere pronunciato
+    command_received = pyqtSignal(str)
+    command_processing = pyqtSignal(str)
+    command_completed = pyqtSignal(dict)
+    speaking = pyqtSignal(str)
     error_occurred = pyqtSignal(str)
 
     def __init__(self, llm=None, tts=None, audio=None, parent=None):
@@ -37,21 +36,16 @@ class AYKOCore(QObject):
         self.llm = llm
         self.tts = tts
         self.audio = audio
-
-        self.state = "idle"           # stato macro (idle/processing/error)
-        self.context: Dict = {}       # dati accumulati dai tool, mai stringificati
+        self.state = "idle"
+        self.context: Dict = {}
         self.timeline = []
-
         self.execution_lock = threading.RLock()
         self._timeline_lock = threading.RLock()
-
         self._parser = None
         self._executor = None
         self._init_components()
-
         if self.audio is not None:
             self.audio.command_detected.connect(self._on_audio_command)
-
         logger.info("AYKOCore initialized")
 
     def _init_components(self):
@@ -66,8 +60,6 @@ class AYKOCore(QObject):
         except Exception as e:
             logger.warning(f"ToolExecutor unavailable: {e}")
 
-    # ---- Controllo microfono (se un AudioInputManager è stato iniettato) ----
-
     def start_listening(self):
         """Avvia l'ascolto del microfono, se disponibile."""
         if self.audio is not None:
@@ -81,14 +73,11 @@ class AYKOCore(QObject):
             self.audio.stop()
 
     def process_text_command(self, text: str):
-        """Punto d'ingresso per input testuale diretto (bypassa il microfono).
-        Utile per test da terminale o per un futuro input testo nella UI.
-        Esegue il comando e lo pronuncia, come un comando vocale."""
+        """Esegue un comando testuale diretto e ne pronuncia il risultato."""
         self._dispatch(text)
 
     def _on_audio_command(self, text: str):
-        """Gira sul thread del microfono: passa subito il lavoro pesante
-        a un thread dedicato, per non bloccare mai il loop audio."""
+        """Sposta l'elaborazione su un thread dedicato."""
         self._dispatch(text)
 
     def _dispatch(self, text: str):
@@ -97,7 +86,6 @@ class AYKOCore(QObject):
         worker.start()
 
     def _handle_command(self, text: str):
-        """Gira su thread dedicato: esegue il comando e lo pronuncia."""
         try:
             self.command_processing.emit(text)
             result = self.execute_command(text)
@@ -124,18 +112,15 @@ class AYKOCore(QObject):
             return str(text) if text else "Fatto."
         return f"Non sono riuscito a completare il comando: {result.get('result', 'errore sconosciuto')}"
 
-    # ---- Esecuzione comando ----
-
     def execute_command(self, text: str) -> Dict:
-        """Esegue un comando testuale attraverso LLM -> Parser -> Tool.
-        Chiamabile direttamente (sincrono) per test o uso da terminale."""
+        """Esegue un comando testuale attraverso LLM -> Parser -> Tool."""
         if not isinstance(text, str):
             raise TypeError("Command must be string")
         text = text.strip()
         if not text:
             return {"success": False, "result": "Empty command", "error": "ValidationError",
                     "intent": "unknown", "tool": "none", "timeline": []}
-        if len(text.encode('utf-8')) > 5000:
+        if len(text.encode("utf-8")) > 5000:
             raise ValueError("Command exceeds maximum length")
 
         with self.execution_lock:
@@ -144,10 +129,8 @@ class AYKOCore(QObject):
             self.state = "processing"
             try:
                 tl.append(f"[{timestamp}] START: {text[:50]}")
-
                 if self.llm is None:
                     raise RuntimeError("Motore AI non disponibile. Controlla la configurazione di Ollama.")
-
                 if not self.llm.is_ready:
                     raise RuntimeError(
                         getattr(self.llm, "last_error", "") or
@@ -156,62 +139,36 @@ class AYKOCore(QObject):
 
                 intent, args = self.llm.interpret(text)
                 tl.append(f"Intent: {intent}")
-
                 tool_name = "unknown"
                 if intent == "unknown":
-                    result = {
-                        "success": False,
-                        "result": "Comando non riconosciuto o non supportato",
-                        "state_updates": None,
-                        "log": "Unknown intent",
-                    }
+                    result = {"success": False, "result": "Comando non riconosciuto o non supportato",
+                              "state_updates": None, "log": "Unknown intent"}
                 elif self._parser is None:
-                    result = {
-                        "success": False,
-                        "result": "Parser dei comandi non disponibile",
-                        "state_updates": None,
-                        "log": "Command parser unavailable",
-                    }
+                    result = {"success": False, "result": "Parser dei comandi non disponibile",
+                              "state_updates": None, "log": "Command parser unavailable"}
                 else:
                     tool_name, args = self._parser.parse(intent, args)
                     tl.append(f"Tool: {tool_name}")
-
                     if tool_name == "unknown":
-                        result = {
-                            "success": False,
-                            "result": f"Intento non supportato: {intent}",
-                            "state_updates": None,
-                            "log": f"Unsupported intent: {intent}",
-                        }
+                        result = {"success": False, "result": f"Intento non supportato: {intent}",
+                                  "state_updates": None, "log": f"Unsupported intent: {intent}"}
                     elif self._executor is None:
-                        result = {
-                            "success": False,
-                            "result": "Esecutore degli strumenti non disponibile",
-                            "state_updates": None,
-                            "log": "Tool executor unavailable",
-                        }
+                        result = {"success": False, "result": "Esecutore degli strumenti non disponibile",
+                                  "state_updates": None, "log": "Tool executor unavailable"}
                     else:
-                        result = self._executor.execute(
-                            tool_name, args, {"context": self.context}
-                        )
+                        result = self._executor.execute(tool_name, args, {"context": self.context})
                         if not isinstance(result, dict) or not isinstance(result.get("success"), bool):
-                            result = {
-                                "success": False,
-                                "result": "Risposta non valida dall'esecutore",
-                                "state_updates": None,
-                                "log": "Invalid tool executor result",
-                            }
-                        elif result.get("state_updates"):
+                            result = {"success": False, "result": "Risposta non valida dall'esecutore",
+                                      "state_updates": None, "log": "Invalid tool executor result"}
+                        elif result.get("success") is True and isinstance(result.get("state_updates"), dict):
                             self.context.update(result["state_updates"])
 
                 self.state = "idle" if result.get("success") else "error"
                 tl.append(f"[{timestamp}] END: {'SUCCESS' if result['success'] else 'FAIL'}")
                 with self._timeline_lock:
                     self.timeline.extend(tl)
-
                 return {**result, "intent": intent, "tool": tool_name,
                         "timestamp": timestamp, "timeline": tl}
-
             except Exception as e:
                 self.state = "error"
                 tl.append(f"[{timestamp}] ERROR: {type(e).__name__}: {e}")
