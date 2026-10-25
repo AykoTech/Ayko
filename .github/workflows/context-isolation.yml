@@ -35,5 +35,5 @@ jobs:
       - name: Run integration tests
         run: python -m pytest -q tests/integration/test_full_flow.py
 
-      - name: Run complete test suite
-        run: python -m pytest -q
+      - name: Run automated test suite (exclude hardware diagnostic)
+        run: python -m pytest -q --ignore=tests/test_audio.py
