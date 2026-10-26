@@ -1,4 +1,3 @@
-
 # Percorso: src/core/tools.py
 import ctypes
 import subprocess
@@ -229,7 +228,13 @@ class WebSearchTool(Tool):
         url = f"https://google.com/search?{urlencode({'q': query})}"
         
         try:
-            webbrowser.open(url)
+            if not webbrowser.open(url):
+                return {
+                    "success": False,
+                    "result": "Unable to open a browser for this search",
+                    "state_updates": None,
+                    "log": f"Browser did not open search: {query}"
+                }
             return {
                 "success": True,
                 "result": f"Searched: {query}",
@@ -269,7 +274,13 @@ class OpenUrlTool(Tool):
             url = f"https://{url}"
         
         try:
-            webbrowser.open(url)
+            if not webbrowser.open(url):
+                return {
+                    "success": False,
+                    "result": "Unable to open the URL in a browser",
+                    "state_updates": None,
+                    "log": f"Browser did not open URL: {url}"
+                }
             return {
                 "success": True,
                 "result": f"Opened {url}",
