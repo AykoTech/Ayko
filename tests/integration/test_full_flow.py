@@ -7,6 +7,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
+from core import tools as core_tools
+from core.tools import OpenUrlTool, WebSearchTool
+
 
 class FakeLLM:
     is_ready = True
@@ -211,3 +214,55 @@ def test_failed_tool_cannot_mutate_live_context(mock_core):
 
     assert result["success"] is False
     assert mock_core.context == {"nested": {"items": ["original"]}}
+
+
+def test_web_search_reports_failure_when_browser_does_not_open(monkeypatch):
+    """A false browser-launch result must not be reported as success."""
+    monkeypatch.setattr(core_tools.webbrowser, "open", lambda url: False)
+
+    result = WebSearchTool().execute({"query": "Ayko desktop"}, {})
+
+    assert result["success"] is False
+    assert result["state_updates"] is None
+    assert "browser" in result["result"].lower()
+
+
+def test_web_search_reports_success_when_browser_opens(monkeypatch):
+    """A successfully launched browser should retain the success result."""
+    opened_urls = []
+    monkeypatch.setattr(
+        core_tools.webbrowser,
+        "open",
+        lambda url: opened_urls.append(url) or True,
+    )
+
+    result = WebSearchTool().execute({"query": "Ayko desktop"}, {})
+
+    assert result["success"] is True
+    assert opened_urls == ["https://google.com/search?q=Ayko+desktop"]
+
+
+def test_open_url_reports_failure_when_browser_does_not_open(monkeypatch):
+    """A false browser-launch result must be reported as a failure."""
+    monkeypatch.setattr(core_tools.webbrowser, "open", lambda url: False)
+
+    result = OpenUrlTool().execute({"url": "example.com"}, {})
+
+    assert result["success"] is False
+    assert result["state_updates"] is None
+    assert "browser" in result["result"].lower()
+
+
+def test_open_url_reports_success_when_browser_opens(monkeypatch):
+    """A successfully launched browser should retain the success result."""
+    opened_urls = []
+    monkeypatch.setattr(
+        core_tools.webbrowser,
+        "open",
+        lambda url: opened_urls.append(url) or True,
+    )
+
+    result = OpenUrlTool().execute({"url": "example.com"}, {})
+
+    assert result["success"] is True
+    assert opened_urls == ["https://example.com"]
