@@ -3,11 +3,13 @@
 import logging
 from typing import Any, Dict
 
+from .tool_security import is_tool_authorized
+
 logger = logging.getLogger("ToolRuntime")
 
 
 class ToolRuntime:
-    """Resolve, validate and execute tools through one centralized boundary."""
+    """Resolve, authorize, validate and execute registered tools."""
 
     def __init__(self, registry: Dict[str, Any]):
         self.registry = registry
@@ -20,7 +22,7 @@ class ToolRuntime:
         return tool
 
     def execute(self, tool_name: str, args: dict, state: dict) -> dict:
-        """Validate and execute a registered tool with normalized failures."""
+        """Authorize, validate and execute a tool through one boundary."""
         tool = self.get_tool(tool_name)
         if tool is None:
             return {
@@ -28,6 +30,15 @@ class ToolRuntime:
                 "result": f"Tool {tool_name} not found",
                 "state_updates": None,
                 "log": f"Unknown tool: {tool_name}",
+            }
+
+        if not is_tool_authorized(tool_name):
+            logger.warning("Authorization denied for tool: %s", tool_name)
+            return {
+                "success": False,
+                "result": f"Tool '{tool_name}' is not authorized by the security policy",
+                "state_updates": None,
+                "log": f"Authorization denied for tool: {tool_name}",
             }
 
         is_valid, error_msg = tool.validate_args(args)
