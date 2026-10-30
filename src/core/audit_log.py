@@ -1,9 +1,10 @@
 """Tamper-evident local audit log for tool operations.
 
-The hash chain detects edits, reordering, and deletion of records in the middle
-of a log. It is not an OS-level security boundary: a user or process with write
-access can replace the file, and truncating a valid suffix cannot be detected
-without an independently stored trusted checkpoint.
+The hash chain detects edits and reordering. The in-memory checkpoint also
+detects valid suffix truncation while this instance remains alive. After a
+restart, truncation of a valid suffix still cannot be detected without an
+independently stored trusted checkpoint. This is not an OS-level security
+boundary: a process with write access can replace the file and its contents.
 """
 
 import hashlib
@@ -24,7 +25,7 @@ class AuditLogIntegrityError(RuntimeError):
 
 
 class OperationAuditLog:
-    """Append-only JSONL log with a SHA-256 hash chain."""
+    """Append-only JSONL log with a SHA-256 hash chain and session checkpoint."""
 
     def __init__(self, path: Optional[Path] = None):
         self.path = Path(path) if path is not None else (
@@ -64,8 +65,14 @@ class OperationAuditLog:
             self._verify_file()
 
     def _verify_file(self) -> None:
+        # Keep the last state verified by this live instance. A valid but shorter
+        # chain must not replace that trusted state during the same session.
+        was_verified = self._verified
+        trusted_hash = self._last_hash
+        trusted_count = self._event_count
+
         if not self.path.exists():
-            if self._event_count:
+            if trusted_count:
                 raise AuditLogIntegrityError("Audit log was removed during this session")
             self._last_hash = _ZERO_HASH
             self._event_count = 0
@@ -116,6 +123,13 @@ class OperationAuditLog:
                     count += 1
         except OSError as exc:
             raise AuditLogIntegrityError(f"Cannot read audit log: {exc}") from exc
+
+        if was_verified and (
+            count != trusted_count or previous_hash != trusted_hash
+        ):
+            raise AuditLogIntegrityError(
+                "Audit log no longer matches the previously verified session checkpoint"
+            )
 
         self._last_hash = previous_hash
         self._event_count = count
