@@ -36,6 +36,20 @@ def test_verify_detects_modified_record(tmp_path):
         audit.verify()
 
 
+def test_verify_detects_valid_suffix_truncation_in_same_session(tmp_path):
+    path = tmp_path / "operations.jsonl"
+    audit = OperationAuditLog(path)
+    audit.append("started", "system_info")
+    audit.append("completed", "system_info", True)
+
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 2
+    path.write_text(lines[0] + "\n", encoding="utf-8")
+
+    with pytest.raises(AuditLogIntegrityError, match="session checkpoint"):
+        audit.verify()
+
+
 def test_verify_rejects_incomplete_record(tmp_path):
     path = tmp_path / "operations.jsonl"
     audit = OperationAuditLog(path)
@@ -82,6 +96,25 @@ def test_runtime_blocks_execution_when_audit_log_is_tampered(tmp_path):
     record = json.loads(path.read_text(encoding="utf-8"))
     record["tool"] = "open_app"
     path.write_text(json.dumps(record) + "\n", encoding="utf-8")
+
+    tool = StubTool()
+    runtime = ToolRuntime({"system_info": tool}, audit_log=audit)
+    result = runtime.execute("system_info", {}, {})
+
+    assert result["success"] is False
+    assert "audit log" in result["result"].lower()
+    assert tool.executed is False
+
+
+def test_runtime_blocks_execution_after_valid_suffix_truncation(tmp_path):
+    path = tmp_path / "operations.jsonl"
+    audit = OperationAuditLog(path)
+    audit.append("started", "system_info")
+    audit.append("completed", "system_info", True)
+
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 2
+    path.write_text(lines[0] + "\n", encoding="utf-8")
 
     tool = StubTool()
     runtime = ToolRuntime({"system_info": tool}, audit_log=audit)
